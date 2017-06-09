@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import trash.oldschool.engine.GameEngine;
 import trash.oldschool.engine.GameGraphics;
 import trash.oldschool.engine.g2d.GameColor;
 import trash.oldschool.engine.g2d.GameHitBox;
@@ -17,11 +18,13 @@ public class SwingGraphics implements GameGraphics {
 	private int[] xPoints = new int[3];
 	private int[] yPoints = new int[3];
 
+	private GameEngine engine;
 	private Graphics2D g;
 	private int width;
 	private int height;
 
-	public SwingGraphics(Graphics2D g2d, int width, int height) {
+	public SwingGraphics(GameEngine engine, Graphics2D g2d, int width, int height) {
+		this.engine = engine;
 		this.g = g2d;
 		this.width = width;
 		this.height = height;
@@ -93,6 +96,12 @@ public class SwingGraphics implements GameGraphics {
 			g.fillPolygon(xPoints, yPoints, 3);
 		} // end while
 
+	}
+
+	@Override
+	public void drawSprite(String spriteName, int x, int y) {
+		GameSprite sprite = engine.getSpriteLibrary().byName(spriteName);
+		g.drawImage(sprite.getImage(), x, y, null);
 	}
 
 	@Override

@@ -21,6 +21,6 @@ public class SwingGameAdapter implements GameAdapter {
 
 	@Override
 	public GameThread createThread(GameEngine engine) {
-		return new SwingThread(engine.getPhysics(), engine.getCanvas());
+		return new SwingThread(engine);
 	}
 }

@@ -43,5 +43,6 @@
 
 	<modules>
 		<module>OldSchoolGameEngine</module>
+		<module>MoleInTheHole</module>
 	</modules>
 </project>

@@ -1,6 +1,7 @@
 package trash.oldschool.engine.impl;
 
 import trash.oldschool.engine.GameEngine;
+import trash.oldschool.engine.GameEngineStep;
 import trash.oldschool.engine.GameThread;
 import trash.oldschool.engine.GameWindowListener;
 import trash.oldschool.logging.Logger;
@@ -22,7 +23,7 @@ public class DefaultGameWindowListener implements GameWindowListener {
 		thread.interrupt();
 
 		logger.info("Disposing engine.");
-		engine.dispose();
+		engine.runStep(GameEngineStep.DISPOSE, null);
 
 		logger.info("Default game window listener finished.");
 	}
