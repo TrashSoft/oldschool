@@ -3,10 +3,10 @@ package trash.oldschool.mole.engine;
 import java.awt.Point;
 
 import trash.oldschool.engine.GameEngineCallback;
-import trash.oldschool.engine.GameGraphics;
+import trash.oldschool.engine.GameEngineFacade;
 import trash.oldschool.engine.g2d.GameSprite;
-import trash.oldschool.engine.g2d.GameSpriteLibrary;
-import trash.oldschool.facade.Facade;
+import trash.oldschool.engine.intf.GameGraphics;
+import trash.oldschool.engine.intf.GameSpriteLibrary;
 import trash.oldschool.mole.model.MoleMap;
 import trash.oldschool.mole.model.MoleModel;
 import trash.oldschool.mole.model.MoleMonster;
@@ -18,7 +18,7 @@ public class MoleRenderStep implements GameEngineCallback {
 	private static final int TILE_WIDTH_AND_HEIGHT = 64;
 
 	@Override
-	public Object call(Facade facade) {
+	public Object call(GameEngineFacade facade) {
 		MoleModel model = (MoleModel) facade.model();
 		MoleMap map = model.map;
 

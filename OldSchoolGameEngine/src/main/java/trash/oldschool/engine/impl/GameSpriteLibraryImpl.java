@@ -1,4 +1,4 @@
-package trash.oldschool.engine.g2d;
+package trash.oldschool.engine.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,11 +8,15 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-public class GameSpriteLibrary {
+import trash.oldschool.engine.g2d.GameSprite;
+import trash.oldschool.engine.intf.GameSpriteLibrary;
+
+public class GameSpriteLibraryImpl implements GameSpriteLibrary {
 
 	private Map<String, GameSprite> filenames = new HashMap<>();
 	private Map<String, GameSprite> names = new HashMap<>();
 
+	@Override
 	public GameSprite loadSprite(String name, String filename) {
 		GameSprite sprite = filenames.get(filename);
 

@@ -1,18 +1,18 @@
-package trash.oldschool.facade;
+package trash.oldschool.engine.impl;
 
-import trash.oldschool.engine.GameControl;
-import trash.oldschool.engine.GameEngine;
-import trash.oldschool.engine.GameGraphics;
-import trash.oldschool.engine.GameTimer;
-import trash.oldschool.engine.g2d.GameSpriteLibrary;
+import trash.oldschool.engine.GameEngineFacade;
+import trash.oldschool.engine.intf.GameControl;
+import trash.oldschool.engine.intf.GameGraphics;
+import trash.oldschool.engine.intf.GameSpriteLibrary;
+import trash.oldschool.engine.intf.GameTimer;
 import trash.oldschool.logging.Logger;
 import trash.oldschool.logging.LoggerFactory;
 
-public class GameEngineFacade implements Facade {
+public class GameEngineFacadeImpl implements GameEngineFacade {
 
 	private GameEngine engine;
 
-	public GameEngineFacade(GameEngine engine) {
+	public GameEngineFacadeImpl(GameEngine engine) {
 		this.engine = engine;
 	}
 

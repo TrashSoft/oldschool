@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import clojure.lang.Compiler;
 import clojure.lang.RT;
-import trash.oldschool.engine.GameEngine;
+import trash.oldschool.engine.GameEngineBuilder;
 import trash.oldschool.logging.Logger;
 import trash.oldschool.logging.LoggerFactory;
 
@@ -22,14 +22,14 @@ public class ClojureRunner {
 				logger.debug("No object is returned.");
 			}
 
-			if(ret == null || !ret.getClass().equals(GameEngine.class)) {
-				logger.error("An instance of `trash.oldschool.engine.GameEngine` class should be returned!");
+			if(ret == null || !ret.getClass().equals(GameEngineBuilder.class)) {
+				logger.error("An instance of `trash.oldschool.engine.GameEngineBuilder` class should be returned!");
 				ret = null;
 			}
 
 			if(ret != null) {
-				GameEngine engine = (GameEngine) ret;
-				engine.startInNewWindow();
+				GameEngineBuilder builder = (GameEngineBuilder) ret;
+				builder.startEngine();
 			}
 		} catch (IOException e) {
 			logger.error("Error occurred when loadding / starting clojure program: " + filename);

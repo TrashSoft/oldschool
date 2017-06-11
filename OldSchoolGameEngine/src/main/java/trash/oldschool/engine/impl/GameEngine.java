@@ -1,26 +1,34 @@
-package trash.oldschool.engine;
+package trash.oldschool.engine.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import trash.oldschool.engine.GameEngineCallback;
+import trash.oldschool.engine.GameEngineFacade;
 import trash.oldschool.engine.g2d.GameControlImpl;
-import trash.oldschool.engine.g2d.GameSpriteLibrary;
-import trash.oldschool.engine.impl.DefaultGameWindowListener;
-import trash.oldschool.facade.Facade;
-import trash.oldschool.facade.GameEngineFacade;
+import trash.oldschool.engine.intf.GameAdapter;
+import trash.oldschool.engine.intf.GameCanvas;
+import trash.oldschool.engine.intf.GameControl;
+import trash.oldschool.engine.intf.GameDescriptor;
+import trash.oldschool.engine.intf.GameEngineStep;
+import trash.oldschool.engine.intf.GameGraphics;
+import trash.oldschool.engine.intf.GameSpriteLibrary;
+import trash.oldschool.engine.intf.GameThread;
+import trash.oldschool.engine.intf.GameTimer;
+import trash.oldschool.engine.intf.GameWindow;
 import trash.oldschool.logging.Logger;
 import trash.oldschool.logging.LoggerFactory;
 
 public class GameEngine {
 
 	public static GameEngine create(GameDescriptor descriptor, GameAdapter adapter) {
-		GameEngine engine = new GameEngine();
-		engine.descriptor = descriptor;
-		engine.adapter = adapter;
-		engine.control = new GameControlImpl();
-		return engine;
+		GameEngine instance = new GameEngine();
+		instance.descriptor = descriptor;
+		instance.adapter = adapter;
+		instance.control = new GameControlImpl();
+		return instance;
 	}
 
 	private boolean initialized;
@@ -34,22 +42,23 @@ public class GameEngine {
 	private GameControl control;
 
 	private Object model;
-	private Facade facade;
+	private GameEngineFacade facade;
 	private GameGraphics graphics;
 	private GameSpriteLibrary spriteLibrary;
 
 	private Map<GameEngineStep, List<GameEngineCallback>> callbacks;
 
 	private GameEngine() {
-		facade = new GameEngineFacade(this);
+		facade = new GameEngineFacadeImpl(this);
 		callbacks = new HashMap<>();
 
 		for(GameEngineStep step : GameEngineStep.values()) {
-			callbacks.put(step, new ArrayList<GameEngineCallback>());
+			List<GameEngineCallback> functions = new ArrayList<GameEngineCallback>();
+			callbacks.put(step, functions);
 		}
 
 		graphics = null;
-		spriteLibrary = new GameSpriteLibrary();
+		spriteLibrary = new GameSpriteLibraryImpl();
 		initialized = false;
 	}
 
@@ -95,7 +104,7 @@ public class GameEngine {
 		return window;
 	}
 
-	public Facade getFacade() {
+	public GameEngineFacade getFacade() {
 		return facade;
 	}
 

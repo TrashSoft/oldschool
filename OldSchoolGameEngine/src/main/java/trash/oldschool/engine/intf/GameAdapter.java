@@ -1,4 +1,6 @@
-package trash.oldschool.engine;
+package trash.oldschool.engine.intf;
+
+import trash.oldschool.engine.impl.GameEngine;
 
 public interface GameAdapter {
 

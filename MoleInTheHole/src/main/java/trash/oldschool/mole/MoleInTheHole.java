@@ -1,38 +1,33 @@
 package trash.oldschool.mole;
 
-import trash.oldschool.engine.GameAdapter;
-import trash.oldschool.engine.GameDescriptor;
-import trash.oldschool.engine.GameEngine;
-import trash.oldschool.engine.GameEngineStep;
+import trash.oldschool.engine.GameEngineBuilder;
+import trash.oldschool.engine.intf.GameEngineStep;
 import trash.oldschool.mole.engine.MoleBuildStep;
 import trash.oldschool.mole.engine.MoleControlStep;
 import trash.oldschool.mole.engine.MoleDisposeStep;
 import trash.oldschool.mole.engine.MoleInitStep;
 import trash.oldschool.mole.engine.MoleModifyStep;
 import trash.oldschool.mole.engine.MoleRenderStep;
-import trash.oldschool.swing.SwingGameAdapter;
 
 public class MoleInTheHole {
 
 	public static void main(String[] args) {
 
-		GameDescriptor descriptor = new GameDescriptor();
-		descriptor.setId("moleInTheHole");
-		descriptor.setTitle("Mole In The Hole");
-		descriptor.setVersion("v00.00.0001");
-		descriptor.setDescription("Clone of an old C64 game.");
+		GameEngineBuilder builder = new GameEngineBuilder();
+		builder.create(
+				"moleInTheHole",
+				"Mole In The Hole",
+				"v00.00.0002",
+				"Clone of an old C64 / C16 game.");
 
-		GameAdapter adapter = new SwingGameAdapter();
-		GameEngine engine = GameEngine.create(descriptor, adapter);
-		
-		engine.step(GameEngineStep.INIT, new MoleInitStep());
-		engine.step(GameEngineStep.BUILD, new MoleBuildStep());
-		engine.step(GameEngineStep.CONTROL, new MoleControlStep());
-		engine.step(GameEngineStep.MODIFY, new MoleModifyStep());
-		engine.step(GameEngineStep.RENDER, new MoleRenderStep());
-		engine.step(GameEngineStep.DISPOSE, new MoleDisposeStep());
-		
-		engine.startInNewWindow();
+		builder.step(GameEngineStep.INIT, new MoleInitStep());
+		builder.step(GameEngineStep.BUILD, new MoleBuildStep());
+		builder.step(GameEngineStep.CONTROL, new MoleControlStep());
+		builder.step(GameEngineStep.MODIFY, new MoleModifyStep());
+		builder.step(GameEngineStep.RENDER, new MoleRenderStep());
+		builder.step(GameEngineStep.DISPOSE, new MoleDisposeStep());
+
+		builder.startEngine();
 	}
 
 }

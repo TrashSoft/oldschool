@@ -1,9 +1,8 @@
 package trash.oldschool.engine.impl;
 
-import trash.oldschool.engine.GameEngine;
-import trash.oldschool.engine.GameEngineStep;
-import trash.oldschool.engine.GameThread;
-import trash.oldschool.engine.GameWindowListener;
+import trash.oldschool.engine.intf.GameEngineStep;
+import trash.oldschool.engine.intf.GameThread;
+import trash.oldschool.engine.intf.GameWindowListener;
 import trash.oldschool.logging.Logger;
 import trash.oldschool.logging.LoggerFactory;
 

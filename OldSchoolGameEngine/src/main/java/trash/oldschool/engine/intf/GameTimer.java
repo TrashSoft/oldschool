@@ -1,5 +1,9 @@
-package trash.oldschool.engine;
+package trash.oldschool.engine.intf;
 
+/**
+ * Helper for the modifying step to read easily, how much time is spent
+ * sincs the last modifying step.
+ */
 public interface GameTimer {
 
 	/** Measurement in seconds. */

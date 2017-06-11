@@ -10,11 +10,11 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import trash.oldschool.engine.GameCanvas;
-import trash.oldschool.engine.GameEngine;
-import trash.oldschool.engine.GameWindow;
-import trash.oldschool.engine.GameWindowListener;
 import trash.oldschool.engine.g2d.GameControlImpl;
+import trash.oldschool.engine.impl.GameEngine;
+import trash.oldschool.engine.intf.GameCanvas;
+import trash.oldschool.engine.intf.GameWindow;
+import trash.oldschool.engine.intf.GameWindowListener;
 
 public class SwingFrame extends JFrame implements GameWindow, WindowListener, KeyListener {
 

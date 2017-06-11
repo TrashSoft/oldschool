@@ -1,4 +1,4 @@
-package trash.oldschool.engine;
+package trash.oldschool.engine.intf;
 
 public interface GameWindowListener  {
 

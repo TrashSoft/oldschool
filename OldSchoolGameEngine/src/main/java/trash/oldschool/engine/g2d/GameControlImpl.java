@@ -3,8 +3,8 @@ package trash.oldschool.engine.g2d;
 import java.util.ArrayList;
 import java.util.List;
 
-import trash.oldschool.engine.GameControl;
-import trash.oldschool.engine.GameKeyListener;
+import trash.oldschool.engine.intf.GameControl;
+import trash.oldschool.engine.intf.GameKeyListener;
 
 public class GameControlImpl implements GameControl {
 

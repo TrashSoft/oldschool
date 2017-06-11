@@ -1,5 +1,8 @@
-package trash.oldschool.engine;
+package trash.oldschool.engine.intf;
 
+/**
+ * Checking of key states.
+ */
 public interface GameControl {
 
 	boolean isUpOn();

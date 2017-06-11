@@ -4,14 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import trash.oldschool.engine.GameEngine;
-import trash.oldschool.engine.GameGraphics;
 import trash.oldschool.engine.g2d.GameColor;
 import trash.oldschool.engine.g2d.GameHitBox;
 import trash.oldschool.engine.g2d.GameHitCircle;
 import trash.oldschool.engine.g2d.GameHitShape;
 import trash.oldschool.engine.g2d.GamePoint;
 import trash.oldschool.engine.g2d.GameSprite;
+import trash.oldschool.engine.impl.GameEngine;
+import trash.oldschool.engine.intf.GameGraphics;
 
 public class SwingGraphics implements GameGraphics {
 

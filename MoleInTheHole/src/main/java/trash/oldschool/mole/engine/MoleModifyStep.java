@@ -2,9 +2,9 @@ package trash.oldschool.mole.engine;
 
 import java.awt.Point;
 
-import trash.oldschool.engine.GameControl;
 import trash.oldschool.engine.GameEngineCallback;
-import trash.oldschool.facade.Facade;
+import trash.oldschool.engine.GameEngineFacade;
+import trash.oldschool.engine.intf.GameControl;
 import trash.oldschool.mole.model.MoleMap;
 import trash.oldschool.mole.model.MoleModel;
 import trash.oldschool.mole.model.MoleMonster;
@@ -17,7 +17,7 @@ public class MoleModifyStep implements GameEngineCallback {
 	private static final double GAME_SPEED = 5.0; // seconds
 
 	@Override
-	public Object call(Facade facade) {
+	public Object call(GameEngineFacade facade) {
 		MoleModel model = (MoleModel) facade.model();
 		MoleMap map = model.map;
 

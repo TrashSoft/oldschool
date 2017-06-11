@@ -13,9 +13,9 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import trash.oldschool.engine.GameCanvas;
-import trash.oldschool.engine.GameEngine;
-import trash.oldschool.engine.GameEngineStep;
+import trash.oldschool.engine.impl.GameEngine;
+import trash.oldschool.engine.intf.GameCanvas;
+import trash.oldschool.engine.intf.GameEngineStep;
 
 public class SwingCanvas extends JPanel implements GameCanvas, MouseListener, MouseMotionListener {
 
@@ -26,8 +26,10 @@ public class SwingCanvas extends JPanel implements GameCanvas, MouseListener, Mo
 	private BufferedImage buffer = null;
 	private Dimension lastSize = new Dimension(PREFERRED_SIZE.width, PREFERRED_SIZE.height);
 
+	@SuppressWarnings("unused")
 	private boolean mouseLeftPressed = false;
 	private boolean mouseRightPressed = false;
+	@SuppressWarnings("unused")
 	private Point mouseLeftAt = new Point(0, 0);
 	private Point mouseRightAt = new Point(0, 0);
 	private Point translate = new Point(0, 0);

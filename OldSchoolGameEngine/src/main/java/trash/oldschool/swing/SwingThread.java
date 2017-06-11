@@ -1,10 +1,10 @@
 package trash.oldschool.swing;
 
-import trash.oldschool.engine.GameCanvas;
-import trash.oldschool.engine.GameEngine;
-import trash.oldschool.engine.GameEngineStep;
-import trash.oldschool.engine.GameThread;
-import trash.oldschool.engine.GameTimer;
+import trash.oldschool.engine.impl.GameEngine;
+import trash.oldschool.engine.intf.GameCanvas;
+import trash.oldschool.engine.intf.GameEngineStep;
+import trash.oldschool.engine.intf.GameThread;
+import trash.oldschool.engine.intf.GameTimer;
 
 public class SwingThread extends Thread implements GameThread, GameTimer {
 

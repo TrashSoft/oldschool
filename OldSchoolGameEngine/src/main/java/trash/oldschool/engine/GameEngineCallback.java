@@ -1,9 +1,13 @@
 package trash.oldschool.engine;
 
-import trash.oldschool.facade.Facade;
+import trash.oldschool.engine.intf.GameEngineStep;
 
 public interface GameEngineCallback {
 
-	Object call(Facade facade);
+	/**
+	 * Handling of a step in the Game Engine's work.
+	 * @see GameEngineStep
+	 */
+	Object call(GameEngineFacade facade);
 
 }
