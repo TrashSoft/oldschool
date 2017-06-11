@@ -10,6 +10,8 @@ import trash.oldschool.engine.g2d.GameSpriteLibrary;
 import trash.oldschool.engine.impl.DefaultGameWindowListener;
 import trash.oldschool.facade.Facade;
 import trash.oldschool.facade.GameEngineFacade;
+import trash.oldschool.logging.Logger;
+import trash.oldschool.logging.LoggerFactory;
 
 public class GameEngine {
 
@@ -21,6 +23,8 @@ public class GameEngine {
 		return engine;
 	}
 
+	private boolean initialized;
+	
 	private GameDescriptor descriptor;
 	private GameAdapter adapter;
 	private GameWindow window;
@@ -45,14 +49,25 @@ public class GameEngine {
 
 		graphics = null;
 		spriteLibrary = new GameSpriteLibrary();
+		initialized = false;
 	}
 
 	public void startInNewWindow() {
+		logger.info("Starting in new window.");
 		GameWindow gameWindow = adapter.createWindow(this);
 		startIn(gameWindow);
 	}
 
 	public void startIn(GameWindow gameWindow) {
+		if(!initialized) {
+			logger.info("Running initialization.");
+			runStep(GameEngineStep.INIT, null);
+			logger.info("Running build step.");
+			runStep(GameEngineStep.BUILD, null);
+			logger.info("Engine initialized.");
+			initialized = true;
+		}
+
 		this.window = gameWindow;
 		this.canvas = adapter.createCanvas(this);
 		this.thread = adapter.createThread(this);
@@ -135,5 +150,6 @@ public class GameEngine {
 	public void setModel(Object model) {
 		this.model = model;
 	}
-	
+
+	private static final Logger logger = LoggerFactory.createLogger(GameEngine.class);
 }

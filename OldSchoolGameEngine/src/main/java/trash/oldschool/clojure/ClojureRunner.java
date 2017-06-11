@@ -5,7 +5,6 @@ import java.io.IOException;
 import clojure.lang.Compiler;
 import clojure.lang.RT;
 import trash.oldschool.engine.GameEngine;
-import trash.oldschool.engine.GameEngineStep;
 import trash.oldschool.logging.Logger;
 import trash.oldschool.logging.LoggerFactory;
 
@@ -30,7 +29,7 @@ public class ClojureRunner {
 
 			if(ret != null) {
 				GameEngine engine = (GameEngine) ret;
-				startGameEngine(engine);
+				engine.startInNewWindow();
 			}
 		} catch (IOException e) {
 			logger.error("Error occurred when loadding / starting clojure program: " + filename);
@@ -38,12 +37,6 @@ public class ClojureRunner {
 		}
 
 		return ret;
-	}
-
-	private static void startGameEngine(GameEngine engine) {
-		engine.runStep(GameEngineStep.INIT, null);
-		engine.runStep(GameEngineStep.BUILD, null);
-		engine.startInNewWindow();
 	}
 
 	private static final Logger logger = LoggerFactory.createLogger(ClojureRunner.class);

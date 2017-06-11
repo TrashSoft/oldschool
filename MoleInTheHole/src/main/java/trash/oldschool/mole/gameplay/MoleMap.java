@@ -57,7 +57,7 @@ public class MoleMap {
 		}
 		
 		map = new char[width][height];
-		for(int y = 0; y < width; y++) {
+		for(int y = 0; y < height; y++) {
 			String line = lines.get(y);
 			for(int x = 0; x < width; x++) {
 				

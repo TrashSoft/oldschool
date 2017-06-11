@@ -2,6 +2,6 @@ package trash.oldschool.mole.gameplay;
 
 public class MoleModel {
 
-	public MoleMap map;
+	public MoleMap map = new MoleMap();
 	
 }
