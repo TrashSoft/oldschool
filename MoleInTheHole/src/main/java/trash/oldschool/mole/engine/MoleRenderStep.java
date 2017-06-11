@@ -9,6 +9,8 @@ import trash.oldschool.engine.g2d.GameSpriteLibrary;
 import trash.oldschool.facade.Facade;
 import trash.oldschool.mole.gameplay.MoleMap;
 import trash.oldschool.mole.gameplay.MoleModel;
+import trash.oldschool.mole.gameplay.MoleMonster;
+import trash.oldschool.mole.gameplay.MoleStone;
 
 public class MoleRenderStep implements GameEngineCallback {
 
@@ -92,6 +94,32 @@ public class MoleRenderStep implements GameEngineCallback {
 				
 			} // end for y
 		} // end for x
+		
+		// 2. Render stones
+		GameSprite stone = library.byName("stone");
+		for(MoleStone s : map.getStones()) {
+			int x = s.position.x * TILE_WIDTH_AND_HEIGHT;
+			int y = s.position.y * TILE_WIDTH_AND_HEIGHT;
+			g.drawSprite(stone, x, y);
+		}
+		
+		// 3. Render player
+		GameSprite player = library.byName("player");
+		GameSprite deadPlayer = library.byName("dead_player");
+		{
+			int x = map.getPlayerPosition().x * TILE_WIDTH_AND_HEIGHT;
+			int y = map.getPlayerPosition().y * TILE_WIDTH_AND_HEIGHT;
+			g.drawSprite(player, x, y);
+		}
+		
+		// 4. Render monsters
+		GameSprite monster = library.byName("monster");
+		GameSprite deadMonster = library.byName("dead_monster");
+		for(MoleMonster m : map.getMonsters()) {
+			int x = m.position.x * TILE_WIDTH_AND_HEIGHT;
+			int y = m.position.y * TILE_WIDTH_AND_HEIGHT;
+			g.drawSprite(monster, x, y);
+		}
 		
 		return null;
 	}
