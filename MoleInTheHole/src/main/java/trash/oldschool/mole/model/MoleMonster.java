@@ -1,10 +1,10 @@
-package trash.oldschool.mole.gameplay;
+package trash.oldschool.mole.model;
 
 import java.awt.Point;
 
 public class MoleMonster extends MoleMoveable {
 
-	public Point direction;
+	public Point direction = new Point(1, 0);
 
 	public MoleMonster(int x, int y) {
 		super(x, y);

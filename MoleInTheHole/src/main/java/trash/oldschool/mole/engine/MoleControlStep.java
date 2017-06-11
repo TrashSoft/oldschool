@@ -7,7 +7,7 @@ public class MoleControlStep implements GameEngineCallback {
 
 	@Override
 	public Object call(Facade facade) {
-		// TODO Auto-generated method stub
+		// reserved to handle key / mouse event detection in the future
 		return null;
 	}
 

@@ -24,12 +24,13 @@ public class GameEngine {
 	}
 
 	private boolean initialized;
-	
+
 	private GameDescriptor descriptor;
 	private GameAdapter adapter;
 	private GameWindow window;
 	private GameCanvas canvas;
 	private GameThread thread;
+	private GameTimer timer;
 	private GameControl control;
 
 	private Object model;
@@ -123,12 +124,17 @@ public class GameEngine {
 			graphics = (GameGraphics) object;
 		}
 
+		if(step == GameEngineStep.MODIFY) {
+			timer = (GameTimer) object;
+		}
+
 		List<GameEngineCallback> list = callbacks.get(step);
 		for(GameEngineCallback callback : list) {
 			callback.call(facade);
 		}
 
 		graphics = null;
+		timer = null;
 		return this;
 	}
 
@@ -141,6 +147,13 @@ public class GameEngine {
 
 	public GameSpriteLibrary getSpriteLibrary() {
 		return spriteLibrary;
+	}
+
+	public GameTimer getTimer() {
+		if(timer == null) {
+			throw new IllegalStateException("No timer currently!");
+		}
+		return timer;
 	}
 
 	public Object getModel() {

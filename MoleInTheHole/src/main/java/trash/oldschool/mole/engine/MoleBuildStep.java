@@ -2,7 +2,7 @@ package trash.oldschool.mole.engine;
 
 import trash.oldschool.engine.GameEngineCallback;
 import trash.oldschool.facade.Facade;
-import trash.oldschool.mole.gameplay.MoleModel;
+import trash.oldschool.mole.model.MoleModel;
 
 public class MoleBuildStep implements GameEngineCallback {
 

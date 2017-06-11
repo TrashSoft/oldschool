@@ -1,4 +1,4 @@
-package trash.oldschool.mole.gameplay;
+package trash.oldschool.mole.model;
 
 public class MolePlayer extends MoleMoveable {
 

@@ -1,7 +1,9 @@
 package trash.oldschool.facade;
 
+import trash.oldschool.engine.GameControl;
 import trash.oldschool.engine.GameEngine;
 import trash.oldschool.engine.GameGraphics;
+import trash.oldschool.engine.GameTimer;
 import trash.oldschool.engine.g2d.GameSpriteLibrary;
 import trash.oldschool.logging.Logger;
 import trash.oldschool.logging.LoggerFactory;
@@ -31,8 +33,18 @@ public class GameEngineFacade implements Facade {
 	}
 
 	@Override
-	public GameSpriteLibrary library() {
+	public GameSpriteLibrary spriteLibrary() {
 		return engine.getSpriteLibrary();
+	}
+
+	@Override
+	public GameTimer timer() {
+		return engine.getTimer();
+	}
+
+	@Override
+	public GameControl control() {
+		return engine.getControl();
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package trash.oldschool.mole.engine;
 import trash.oldschool.engine.GameEngineCallback;
 import trash.oldschool.engine.g2d.GameSpriteLibrary;
 import trash.oldschool.facade.Facade;
-import trash.oldschool.mole.gameplay.MoleModel;
+import trash.oldschool.mole.model.MoleModel;
 
 public class MoleInitStep implements GameEngineCallback {
 
@@ -11,7 +11,7 @@ public class MoleInitStep implements GameEngineCallback {
 	public Object call(Facade facade) {
 		facade.setModel(new MoleModel());
 
-		GameSpriteLibrary library = facade.library();
+		GameSpriteLibrary library = facade.spriteLibrary();
 		
 		library.loadSprite("wall", "images/wall.jpg");
 		library.loadSprite("dirt", "images/dirt.jpg");

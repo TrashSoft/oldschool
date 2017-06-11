@@ -11,7 +11,7 @@
 (def initStep (reify trash.oldschool.engine.GameEngineCallback
   (call [this facade]
       (.info (.logger facade) "Init Step Ran!")
-      (.loadSprite (.library facade) "logo" "res/logo.jpg")
+      (.loadSprite (.spriteLibrary facade) "logo" "res/logo.jpg")
 )))
 
 (def disposeStep (reify trash.oldschool.engine.GameEngineCallback

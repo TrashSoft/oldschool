@@ -4,13 +4,14 @@ import trash.oldschool.engine.GameCanvas;
 import trash.oldschool.engine.GameEngine;
 import trash.oldschool.engine.GameEngineStep;
 import trash.oldschool.engine.GameThread;
+import trash.oldschool.engine.GameTimer;
 
-public class SwingThread extends Thread implements GameThread {
+public class SwingThread extends Thread implements GameThread, GameTimer {
 
 	private GameEngine engine;
 	private GameCanvas canvas;
 
-	private long nanoTimeLastTime = System.nanoTime();
+	private long nanoTimeOnLastCall = System.nanoTime();
 	private long nanoTimeNow = System.nanoTime();
 
 	public SwingThread(GameEngine engine) {
@@ -25,7 +26,7 @@ public class SwingThread extends Thread implements GameThread {
 			while(true) {
 				nanoTimeNow = System.nanoTime();
 				engine.runStep(GameEngineStep.MODIFY, this);
-				nanoTimeLastTime = nanoTimeNow;
+				nanoTimeOnLastCall = nanoTimeNow;
 				canvas.repaint();
 				Thread.sleep(10);
 			}
@@ -35,12 +36,21 @@ public class SwingThread extends Thread implements GameThread {
 		}
 	}
 
-	public long getNanoTimeLastTime() {
-		return nanoTimeLastTime;
+	@Override
+	public long getNanoTimeOnLastCall() {
+		return nanoTimeOnLastCall;
 	}
 
+	@Override
 	public long getNanoTimeNow() {
 		return nanoTimeNow;
+	}
+
+	@Override
+	public double elapsedTime() {
+		long elapsedTimeInNanos = nanoTimeNow - nanoTimeOnLastCall;
+		double elapsedTime = elapsedTimeInNanos / 1000000000.0;
+		return elapsedTime;
 	}
 
 }

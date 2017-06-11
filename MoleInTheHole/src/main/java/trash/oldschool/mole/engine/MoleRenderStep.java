@@ -7,11 +7,11 @@ import trash.oldschool.engine.GameGraphics;
 import trash.oldschool.engine.g2d.GameSprite;
 import trash.oldschool.engine.g2d.GameSpriteLibrary;
 import trash.oldschool.facade.Facade;
-import trash.oldschool.mole.gameplay.MoleMap;
-import trash.oldschool.mole.gameplay.MoleModel;
-import trash.oldschool.mole.gameplay.MoleMonster;
-import trash.oldschool.mole.gameplay.MolePlayer;
-import trash.oldschool.mole.gameplay.MoleStone;
+import trash.oldschool.mole.model.MoleMap;
+import trash.oldschool.mole.model.MoleModel;
+import trash.oldschool.mole.model.MoleMonster;
+import trash.oldschool.mole.model.MolePlayer;
+import trash.oldschool.mole.model.MoleStone;
 
 public class MoleRenderStep implements GameEngineCallback {
 
@@ -51,7 +51,7 @@ public class MoleRenderStep implements GameEngineCallback {
 		int translateYTiles = 0;
 
 		// 1. Drawing map
-		GameSpriteLibrary library = facade.library();
+		GameSpriteLibrary library = facade.spriteLibrary();
 		GameSprite wall = library.byName("wall");
 		GameSprite dirt = library.byName("dirt");
 		GameSprite exit = library.byName("exit");
@@ -100,8 +100,8 @@ public class MoleRenderStep implements GameEngineCallback {
 		GameSprite player = library.byName("player");
 		GameSprite deadPlayer = library.byName("dead_player");
 		for(MolePlayer p : map.getPlayers()) {
-			int x = p.currentX(TILE_WIDTH_AND_HEIGHT);
-			int y = p.currentY(TILE_WIDTH_AND_HEIGHT);
+			int x = (int)(p.currentX() * TILE_WIDTH_AND_HEIGHT);
+			int y = (int)(p.currentY() * TILE_WIDTH_AND_HEIGHT);
 			g.drawSprite(p.alive ? player : deadPlayer, x, y);
 		}
 
@@ -109,16 +109,16 @@ public class MoleRenderStep implements GameEngineCallback {
 		GameSprite monster = library.byName("monster");
 		GameSprite deadMonster = library.byName("dead_monster");
 		for(MoleMonster m : map.getMonsters()) {
-			int x = m.currentX(TILE_WIDTH_AND_HEIGHT);
-			int y = m.currentY(TILE_WIDTH_AND_HEIGHT);
+			int x = (int)(m.currentX() * TILE_WIDTH_AND_HEIGHT);
+			int y = (int)(m.currentY() * TILE_WIDTH_AND_HEIGHT);
 			g.drawSprite(m.alive ? monster : deadMonster, x, y);
 		}
 
 		// 4. Render stones
 		GameSprite stone = library.byName("stone");
 		for(MoleStone s : map.getStones()) {
-			int x = s.currentX(TILE_WIDTH_AND_HEIGHT);
-			int y = s.currentY(TILE_WIDTH_AND_HEIGHT);
+			int x = (int)(s.currentX() * TILE_WIDTH_AND_HEIGHT);
+			int y = (int)(s.currentY() * TILE_WIDTH_AND_HEIGHT);
 			g.drawSprite(stone, x, y);
 		}
 
