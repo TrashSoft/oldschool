@@ -14,7 +14,7 @@ import trash.oldschool.mole.model.MoleStone;
 
 public class MoleModifyStep implements GameEngineCallback {
 
-	private static final double GAME_SPEED = 0.2; // seconds
+	private static final double GAME_SPEED = 5.0; // seconds
 
 	@Override
 	public Object call(Facade facade) {
@@ -104,7 +104,7 @@ public class MoleModifyStep implements GameEngineCallback {
 					int exitX = map.isReadyToExit() ? exitPosition.x : -1;
 					int exitY = map.isReadyToExit() ? exitPosition.y : -1;
 
-					if(tile == '#' && targetX != exitX && targetY != exitY) {
+					if(tile == '#' && (targetX != exitX || targetY != exitY)) {
 						stopped = true;
 					}
 
