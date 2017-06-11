@@ -13,7 +13,7 @@ public class MoleMap {
 	
 	private List<MoleMonster> monsters;
 	private List<MoleStone> stones;
-	private Point playerPosition;
+	private List<MolePlayer> players;
 	private Point exitPosition;
 	private boolean readyToExit;
 	private int numberOfDiamonds;
@@ -82,7 +82,7 @@ public class MoleMap {
 				}
 				
 				if(c == 'p' || c == 'P') {
-					playerPosition = new Point(x, y);
+					players.add(new MolePlayer(x, y));
 				}
 				
 				if(c == 'o' || c == 'O') {
@@ -99,7 +99,7 @@ public class MoleMap {
 			throw new RuntimeException("Exit position is missing from map!");
 		}
 		
-		if(playerPosition == null) {
+		if(players.isEmpty()) {
 			throw new RuntimeException("Player position is missing from map!");
 		}
 		
@@ -112,7 +112,7 @@ public class MoleMap {
 		
 		monsters = new ArrayList<>();
 		stones = new ArrayList<>();
-		playerPosition = null;
+		players = new ArrayList<>();
 		exitPosition = null;
 		readyToExit = false;
 		numberOfDiamonds = 0;
@@ -134,12 +134,12 @@ public class MoleMap {
 		this.stones = stones;
 	}
 
-	public Point getPlayerPosition() {
-		return playerPosition;
+	public List<MolePlayer> getPlayers() {
+		return players;
 	}
 
-	public void setPlayerPosition(Point playerPosition) {
-		this.playerPosition = playerPosition;
+	public void setPlayers(List<MolePlayer> players) {
+		this.players = players;
 	}
 
 	public Point getExitPosition() {

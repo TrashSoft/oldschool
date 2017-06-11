@@ -1,13 +1,9 @@
 package trash.oldschool.mole.gameplay;
 
-import java.awt.Point;
+public class MoleStone extends MoleMoveable {
 
-public class MoleStone {
-
-	public Point position;
-	
 	public MoleStone(int x, int y) {
-		this.position = new Point(x, y); 
+		super(x, y); 
 	}
 	
 }
