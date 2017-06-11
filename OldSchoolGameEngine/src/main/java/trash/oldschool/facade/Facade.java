@@ -9,6 +9,8 @@ import trash.oldschool.logging.Logger;
  */
 public interface Facade {
 
+	Object getModel();
+	Object setModel(Object model);
 	GameGraphics graphics();
 	GameSpriteLibrary library();
 	Logger logger();

@@ -28,6 +28,7 @@ public class GameEngine {
 	private GameThread thread;
 	private GameControl control;
 
+	private Object model;
 	private Facade facade;
 	private GameGraphics graphics;
 	private GameSpriteLibrary spriteLibrary;
@@ -126,4 +127,13 @@ public class GameEngine {
 	public GameSpriteLibrary getSpriteLibrary() {
 		return spriteLibrary;
 	}
+
+	public Object getModel() {
+		return model;
+	}
+
+	public void setModel(Object model) {
+		this.model = model;
+	}
+	
 }

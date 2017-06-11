@@ -23,10 +23,7 @@ public class MoleMap {
 		boolean startedReading = false;
 		boolean finishedReading = false;
 		
-		monsters = new ArrayList<>();
-		stones = new ArrayList<>();
-		playerPosition = null;
-		exitPosition = null;
+		clear();
 		
 		List<String> lines = new ArrayList<>();
 		
@@ -91,5 +88,20 @@ public class MoleMap {
 				}
 			}
 		}
+		
+		if(exitPosition == null) {
+			throw new RuntimeException("Exit position is missing from map!");
+		}
+		
+		if(playerPosition == null) {
+			throw new RuntimeException("Player position is missing from map!");
+		}
+	}
+
+	public void clear() {
+		monsters = new ArrayList<>();
+		stones = new ArrayList<>();
+		playerPosition = null;
+		exitPosition = null;
 	}
 }

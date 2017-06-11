@@ -15,6 +15,17 @@ public class GameEngineFacade implements Facade {
 	}
 
 	@Override
+	public Object getModel() {
+		return engine.getModel();
+	}
+
+	@Override
+	public Object setModel(Object model) {
+		engine.setModel(model);
+		return model;
+	}
+
+	@Override
 	public GameGraphics graphics() {
 		return engine.getGraphics();
 	}
