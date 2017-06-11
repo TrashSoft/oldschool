@@ -15,11 +15,14 @@ public class MoleMap {
 	private List<MoleStone> stones;
 	private Point playerPosition;
 	private Point exitPosition;
+	private boolean readyToExit;
+	private int numberOfDiamonds;
+	
 	private char[][] map;
+	private int width;
+	private int height;
 
 	public void loadFrom(String filename) {
-		int width = 0;
-		int height = 0;
 		boolean startedReading = false;
 		boolean finishedReading = false;
 		
@@ -71,6 +74,9 @@ public class MoleMap {
 					}
 				} else if(c == '*' || c == '.') {
 					map[x][y] = c;
+					if(c == '*') {
+						numberOfDiamonds++;
+					}
 				} else {
 					map[x][y] = ' ';
 				}
@@ -96,12 +102,93 @@ public class MoleMap {
 		if(playerPosition == null) {
 			throw new RuntimeException("Player position is missing from map!");
 		}
+		
+		readyToExit = (numberOfDiamonds == 0);
 	}
 
 	public void clear() {
+		width = 0;
+		height = 0;
+		
 		monsters = new ArrayList<>();
 		stones = new ArrayList<>();
 		playerPosition = null;
 		exitPosition = null;
+		readyToExit = false;
+		numberOfDiamonds = 0;
 	}
+
+	public List<MoleMonster> getMonsters() {
+		return monsters;
+	}
+
+	public void setMonsters(List<MoleMonster> monsters) {
+		this.monsters = monsters;
+	}
+
+	public List<MoleStone> getStones() {
+		return stones;
+	}
+
+	public void setStones(List<MoleStone> stones) {
+		this.stones = stones;
+	}
+
+	public Point getPlayerPosition() {
+		return playerPosition;
+	}
+
+	public void setPlayerPosition(Point playerPosition) {
+		this.playerPosition = playerPosition;
+	}
+
+	public Point getExitPosition() {
+		return exitPosition;
+	}
+
+	public void setExitPosition(Point exitPosition) {
+		this.exitPosition = exitPosition;
+	}
+
+	public char[][] getMap() {
+		return map;
+	}
+
+	public void setMap(char[][] map) {
+		this.map = map;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public boolean isReadyToExit() {
+		return readyToExit;
+	}
+
+	public void setReadyToExit(boolean readyToExit) {
+		this.readyToExit = readyToExit;
+	}
+
+	public int getNumberOfDiamonds() {
+		return numberOfDiamonds;
+	}
+
+	public void setNumberOfDiamonds(int numberOfDiamonds) {
+		this.numberOfDiamonds = numberOfDiamonds;
+	}
+	
+	
 }

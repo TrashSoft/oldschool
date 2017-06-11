@@ -58,9 +58,9 @@ public class SwingCanvas extends JPanel implements GameCanvas, MouseListener, Mo
 		}
 
 		Graphics2D g2d = (Graphics2D)buffer.getGraphics();
-		g2d.setColor(Color.LIGHT_GRAY);
-		g2d.fillRect(0, 0, lastSize.width, lastSize.height);
 		g2d.setColor(Color.black);
+		g2d.fillRect(0, 0, lastSize.width, lastSize.height);
+		g2d.setColor(Color.white);
 
 		paint2d(g2d);
 
