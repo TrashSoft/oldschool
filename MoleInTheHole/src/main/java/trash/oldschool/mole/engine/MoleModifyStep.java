@@ -1,6 +1,7 @@
 package trash.oldschool.mole.engine;
 
 import java.awt.Point;
+import java.util.Random;
 
 import trash.oldschool.engine.GameEngineCallback;
 import trash.oldschool.engine.GameEngineFacade;
@@ -15,6 +16,7 @@ import trash.oldschool.mole.model.MoleStone;
 public class MoleModifyStep implements GameEngineCallback {
 
 	private static final double GAME_SPEED = 5.0; // seconds
+	private static final Random RANDOM = new Random(System.currentTimeMillis());
 
 	@Override
 	public Object call(GameEngineFacade facade) {
@@ -66,6 +68,122 @@ public class MoleModifyStep implements GameEngineCallback {
 				boolean stopped = true;
 
 				// TODO stone movement
+				boolean allowedToFallLeft = true;
+				boolean allowedToFallDown = true;
+				boolean allowedToFallRight = true;
+
+				char tileDown = map.getTile(stone.position.x, stone.position.y + 1);
+				if(tileDown == '#' || tileDown == '.') {
+					allowedToFallLeft = false;
+					allowedToFallDown = false;
+					allowedToFallRight = false;
+				} else if(tileDown == '*') {
+					allowedToFallDown = false;
+				}
+
+				char tileLeft = map.getTile(stone.position.x - 1, stone.position.y);
+				if(tileLeft != ' ') {
+					allowedToFallLeft = false;
+				}
+
+				char tileDownLeft = map.getTile(stone.position.x - 1, stone.position.y + 1);
+				if(tileDownLeft != ' ') {
+					allowedToFallLeft = false;
+				}
+
+				char tileRight = map.getTile(stone.position.x + 1, stone.position.y);
+				if(tileRight != ' ') {
+					allowedToFallRight = false;
+				}
+
+				char tileDownRight = map.getTile(stone.position.x + 1, stone.position.y + 1);
+				if(tileDownRight != ' ') {
+					allowedToFallRight = false;
+				}
+
+				for(MoleStone s2 : map.getStones()) {
+					if(stone == s2) {
+						continue;
+					}
+
+					if(s2.position.x == stone.position.x && s2.position.y == stone.position.y + 1) {
+						allowedToFallDown = false;
+					}
+
+					if(s2.position.x == stone.position.x - 1 && (s2.position.y == stone.position.y || s2.position.y == stone.position.y + 1)) {
+						allowedToFallLeft = false;
+					}
+
+					if(s2.position.x == stone.position.x + 1 && (s2.position.y == stone.position.y || s2.position.y == stone.position.y + 1)) {
+						allowedToFallRight = false;
+					}
+
+					if(s2.target.x == stone.position.x && s2.target.y == stone.position.y + 1) {
+						allowedToFallDown = false;
+					}
+
+					if(s2.target.x == stone.position.x - 1 && (s2.target.y == stone.position.y || s2.target.y == stone.position.y + 1)) {
+						allowedToFallLeft = false;
+					}
+
+					if(s2.target.x == stone.position.x + 1 && (s2.target.y == stone.position.y || s2.target.y == stone.position.y + 1)) {
+						allowedToFallRight = false;
+					}
+				}
+
+				for(MolePlayer player : map.getPlayers()) {
+					if(player.position.x == stone.position.x && player.position.y == stone.position.y + 1) {
+						allowedToFallLeft = false;
+						allowedToFallDown = false;
+						allowedToFallRight = false;
+					}
+
+					if(player.position.x == stone.position.x - 1 && (player.position.y == stone.position.y || player.position.y == stone.position.y + 1)) {
+						allowedToFallLeft = false;
+					}
+
+					if(player.position.x == stone.position.x + 1 && (player.position.y == stone.position.y || player.position.y == stone.position.y + 1)) {
+						allowedToFallRight = false;
+					}
+
+					if(player.target.x == stone.position.x && player.target.y == stone.position.y + 1) {
+						allowedToFallLeft = false;
+						allowedToFallDown = false;
+						allowedToFallRight = false;
+					}
+
+					if(player.target.x == stone.position.x - 1 && (player.target.y == stone.position.y || player.target.y == stone.position.y + 1)) {
+						allowedToFallLeft = false;
+					}
+
+					if(player.target.x == stone.position.x + 1 && (player.target.y == stone.position.y || player.target.y == stone.position.y + 1)) {
+						allowedToFallRight = false;
+					}
+				}
+
+				if(allowedToFallDown) {
+
+					allowedToFallLeft = false;
+					allowedToFallRight = false;
+					stone.move(stone.position.x, stone.position.y + 1, MoleStoneFall.DOWN_FALL);
+
+				} else if(allowedToFallLeft && allowedToFallRight) {
+					if(RANDOM.nextBoolean()) {
+						allowedToFallLeft = false;
+					} else {
+						allowedToFallRight = false;
+					}
+				}
+
+				if(allowedToFallLeft) {
+
+					stone.move(stone.position.x - 1, stone.position.y + 1, MoleStoneFall.SIDE_FALL);
+
+				} else if(allowedToFallRight) {
+
+					stone.move(stone.position.x + 1, stone.position.y + 1, MoleStoneFall.SIDE_FALL);
+
+				}
 
 				if(!stopped) {
 					// stone.move(targetX, targetY);
