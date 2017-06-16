@@ -10,26 +10,59 @@ public class MoleMonster extends MoleMoveable {
 		super(x, y);
 	}
 
-	public void rotate() {
+
+	public Point rotateLeft() {
+		if(direction.x == 1 && direction.y == 0)  {
+			direction.x = 0;
+			direction.y = -1;
+			return direction;
+		}
+
+		if(direction.x == 0 && direction.y == -1)  {
+			direction.x = -1;
+			direction.y = 0;
+			return direction;
+		}
+
+		if(direction.x == -1 && direction.y == 0)  {
+			direction.x = 0;
+			direction.y = 1;
+			return direction;
+		}
+
+		direction.x = 1;
+		direction.y = 0;
+		return direction;
+	}
+
+	public Point rotateRight() {
 		if(direction.x == 1 && direction.y == 0)  {
 			direction.x = 0;
 			direction.y = 1;
-			return;
+			return direction;
 		}
 
 		if(direction.x == 0 && direction.y == 1)  {
 			direction.x = -1;
 			direction.y = 0;
-			return;
+			return direction;
 		}
 
 		if(direction.x == -1 && direction.y == 0)  {
 			direction.x = 0;
 			direction.y = -1;
-			return;
+			return direction;
 		}
 
 		direction.x = 1;
 		direction.y = 0;
+		return direction;
+	}
+
+
+	public void moveForward() {
+		int tx = position.x + (direction == null ? 0 : direction.x);
+		int ty = position.y + (direction == null ? 0 : direction.y);
+		move(tx, ty);
 	}
 }

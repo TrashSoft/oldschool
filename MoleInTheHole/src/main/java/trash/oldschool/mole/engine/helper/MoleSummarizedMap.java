@@ -1,5 +1,7 @@
 package trash.oldschool.mole.engine.helper;
 
+import java.awt.Point;
+
 import trash.oldschool.mole.model.MoleMap;
 import trash.oldschool.mole.model.MoleMonster;
 import trash.oldschool.mole.model.MoleStone;
@@ -32,6 +34,12 @@ public class MoleSummarizedMap {
 		}
 	}
 
+	public boolean free(Point p, Point d) {
+		int x = p.x + (d == null ? 0 : d.x);
+		int y = p.y + (d == null ? 0 : d.y);
+		return free(x, y);
+	}
+
 	public boolean free(int x, int y) {
 		if(x < 0 || x >= width)
 			return false;
@@ -40,5 +48,25 @@ public class MoleSummarizedMap {
 			return false;
 		}
 		return map[x][y];
+	}
+
+	public boolean wallAround(Point p, Point d) {
+		int px = p.x + (d == null ? 0 : d.x);
+		int py = p.y + (d == null ? 0 : d.y);
+
+		for(int x = -1; x <= 1; x++) {
+			for(int y = -1; y <= 1; y++) {
+				if(x == 0 && y == 0) {
+					continue; // this wall is the monster itself
+				}
+
+				boolean wall = !free(px + x, py + y);
+				if(wall) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }

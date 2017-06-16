@@ -278,40 +278,31 @@ public class MoleModifyStep implements GameEngineCallback {
 		Point d = monster.direction;
 
 		// if there are no walls around the monster; just go forward!
-		boolean isThereAnyWallAround = false;
-		outer: for(int x = -1; x <= 1; x++) {
-			for(int y = -1; y <= 1; y++) {
-				if(x == 0 && y == 0) {
-					continue; // this wall is the monster itself
-				}
-
-				boolean wall = !map.free(p.x + y, p.y + y);
-				if(wall) {
-					isThereAnyWallAround = true;
-					break outer;
-				}
-			}
-		}
-
-		if(!isThereAnyWallAround) {
+		if(!map.wallAround(p, null)) {
 			monster.move(p.x + d.x, p.y + d.y);
 			return;
 		}
 
 
 		// if there are walls around, then stick to them
+		d = monster.rotateLeft();
+		for(int i = 0; i < 4; i++) {
+			if(map.free(p, d) && map.wallAround(p, d)) {
+				monster.moveForward();
+				return;
+			} else {
+				d = monster.rotateRight();
+			}
+		}
 
-		// [???]
-
-		// old logic
-		int targetX = p.x + d.x;
-		int targetY = p.y + d.y;
-
-		boolean free = map.free(targetX, targetY);
-		if(free) {
-			monster.move(targetX, targetY);
-		} else {
-			monster.rotate();
+		// if no better, just look for a free passage
+		for(int i = 0; i < 4; i++) {
+			if(map.free(p, d)) {
+				monster.moveForward();
+				return;
+			} else {
+				d = monster.rotateRight();
+			}
 		}
 	}
 
