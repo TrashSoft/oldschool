@@ -102,7 +102,12 @@ public class MoleRenderStep implements GameEngineCallback {
 		for(MolePlayer p : map.getPlayers()) {
 			int x = (int)(p.currentX() * TILE_WIDTH_AND_HEIGHT);
 			int y = (int)(p.currentY() * TILE_WIDTH_AND_HEIGHT);
-			g.drawSprite(p.alive ? player : deadPlayer, x, y);
+
+			if(p.alive) {
+				g.drawSprite(player, x, y);
+			} else {
+				g.drawSprite(deadPlayer, x, y + (TILE_WIDTH_AND_HEIGHT - deadPlayer.height()));
+			}
 		}
 
 		// 3. Render monsters
@@ -111,7 +116,12 @@ public class MoleRenderStep implements GameEngineCallback {
 		for(MoleMonster m : map.getMonsters()) {
 			int x = (int)(m.currentX() * TILE_WIDTH_AND_HEIGHT);
 			int y = (int)(m.currentY() * TILE_WIDTH_AND_HEIGHT);
-			g.drawSprite(m.alive ? monster : deadMonster, x, y);
+
+			if(m.alive) {
+				g.drawSprite(monster, x, y);
+			} else {
+				g.drawSprite(deadMonster, x, y + (TILE_WIDTH_AND_HEIGHT - deadMonster.height()));
+			}
 		}
 
 		// 4. Render stones

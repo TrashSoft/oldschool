@@ -12,5 +12,13 @@ public class GameSprite {
 		return image;
 	}
 
+	public int width() {
+		return image.getWidth();
+	}
+
+	public int height() {
+		return image.getHeight();
+	}
+
 	private BufferedImage image;
 }

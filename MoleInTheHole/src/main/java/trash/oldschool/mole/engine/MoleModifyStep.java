@@ -28,37 +28,10 @@ public class MoleModifyStep implements GameEngineCallback {
 		// move monsters
 		for(MoleMonster monster : map.getMonsters()) {
 			if(monster.isAllowedToMove()) {
-				Point p = monster.position;
-				Point d = monster.direction;
-				int targetX = p.x + d.x;
-				int targetY = p.y + d.y;
-				boolean stopped = false;
-
-				char tile = map.getTile(p, d);
-				if(tile != ' ') {
-					stopped = true;
-				}
-
-				if(!stopped) {
-					for(MoleStone stone : map.getStones()) {
-						if(stone.position.x == targetX && stone.position.y == targetY) {
-							stopped = true;
-							break;
-						}
-						if(stone.target.x == targetX && stone.target.y == targetY) {
-							stopped = true;
-							break;
-						}
-					}
-				}
-
-				if(stopped) {
-					monster.rotate();
-				} else {
-					monster.move(targetX, targetY);
-				} // end if stopped
+				moveMonster(map, monster);
 			} else {
-				monster.reduceDelta(delta);
+				if(monster.alive)
+					monster.reduceDelta(delta);
 			} // end is allowed to move
 		} // end for monster
 
@@ -195,6 +168,9 @@ public class MoleModifyStep implements GameEngineCallback {
 
 		// move players
 		for(MolePlayer player : map.getPlayers()) {
+			if(!player.alive)
+				continue;
+
 			if(player.isAllowedToMove()) {
 
 				GameControl control = facade.control();
@@ -285,6 +261,38 @@ public class MoleModifyStep implements GameEngineCallback {
 		}
 
 		return touching;
+	}
+
+	private void moveMonster(MoleMap map, MoleMonster monster) {
+		Point p = monster.position;
+		Point d = monster.direction;
+		int targetX = p.x + d.x;
+		int targetY = p.y + d.y;
+		boolean stopped = false;
+
+		char tile = map.getTile(p, d);
+		if(tile != ' ') {
+			stopped = true;
+		}
+
+		if(!stopped) {
+			for(MoleStone stone : map.getStones()) {
+				if(stone.position.x == targetX && stone.position.y == targetY) {
+					stopped = true;
+					break;
+				}
+				if(stone.target.x == targetX && stone.target.y == targetY) {
+					stopped = true;
+					break;
+				}
+			}
+		}
+
+		if(stopped) {
+			monster.rotate();
+		} else {
+			monster.move(targetX, targetY);
+		} // end if stopped
 	}
 
 }
