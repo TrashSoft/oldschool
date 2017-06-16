@@ -243,7 +243,7 @@ public class MoleModifyStep implements GameEngineCallback {
 		return null;
 	}
 
-	private boolean areTouching(MoleMoveable m1, MoleMoveable m2) {
+	boolean areTouching(MoleMoveable m1, MoleMoveable m2) {
 		double m1x = m1.currentX();
 		double m1y = m1.currentY();
 		double m2x = m2.currentX();
@@ -256,7 +256,10 @@ public class MoleModifyStep implements GameEngineCallback {
 		double boxRight = m1x + 1.5;
 		double boxBottom = m1y + 1.5;
 
-		if(m2x >= boxLeft && m2x <= boxRight && m2y >= boxTop && m2x <= boxBottom) {
+		double px = m2x + 0.5;
+		double py = m2y + 0.5;
+
+		if(px >= boxLeft && px <= boxRight && py >= boxTop && py <= boxBottom) {
 			touching = true;
 		}
 
