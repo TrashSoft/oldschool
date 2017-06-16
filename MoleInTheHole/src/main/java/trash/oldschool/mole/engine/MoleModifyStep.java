@@ -6,6 +6,7 @@ import java.util.Random;
 import trash.oldschool.engine.GameEngineCallback;
 import trash.oldschool.engine.GameEngineFacade;
 import trash.oldschool.engine.intf.GameControl;
+import trash.oldschool.mole.engine.helper.MoleSummarizedMap;
 import trash.oldschool.mole.model.MoleMap;
 import trash.oldschool.mole.model.MoleModel;
 import trash.oldschool.mole.model.MoleMonster;
@@ -25,10 +26,14 @@ public class MoleModifyStep implements GameEngineCallback {
 
 		double delta = facade.timer().elapsedTime() * GAME_SPEED;
 
+		// first we summorize everything we have into a small
+		// map created specially for the monsters
+		MoleSummarizedMap summarizedMap = new MoleSummarizedMap(map);
+
 		// move monsters
 		for(MoleMonster monster : map.getMonsters()) {
 			if(monster.isAllowedToMove()) {
-				moveMonster(map, monster);
+				moveMonster(summarizedMap, monster);
 			} else {
 				if(monster.alive)
 					monster.reduceDelta(delta);
@@ -40,7 +45,6 @@ public class MoleModifyStep implements GameEngineCallback {
 			if(stone.isAllowedToMove()) {
 				boolean stopped = true;
 
-				// TODO stone movement
 				boolean allowedToFallLeft = true;
 				boolean allowedToFallDown = true;
 				boolean allowedToFallRight = true;
@@ -266,36 +270,49 @@ public class MoleModifyStep implements GameEngineCallback {
 		return touching;
 	}
 
-	private void moveMonster(MoleMap map, MoleMonster monster) {
+	/**
+	 * Monster algorithm: always follow the wall on the left.
+	 */
+	private void moveMonster(MoleSummarizedMap map, MoleMonster monster) {
 		Point p = monster.position;
 		Point d = monster.direction;
-		int targetX = p.x + d.x;
-		int targetY = p.y + d.y;
-		boolean stopped = false;
 
-		char tile = map.getTile(p, d);
-		if(tile != ' ') {
-			stopped = true;
-		}
-
-		if(!stopped) {
-			for(MoleStone stone : map.getStones()) {
-				if(stone.position.x == targetX && stone.position.y == targetY) {
-					stopped = true;
-					break;
+		// if there are no walls around the monster; just go forward!
+		boolean isThereAnyWallAround = false;
+		outer: for(int x = -1; x <= 1; x++) {
+			for(int y = -1; y <= 1; y++) {
+				if(x == 0 && y == 0) {
+					continue; // this wall is the monster itself
 				}
-				if(stone.target.x == targetX && stone.target.y == targetY) {
-					stopped = true;
-					break;
+
+				boolean wall = !map.free(p.x + y, p.y + y);
+				if(wall) {
+					isThereAnyWallAround = true;
+					break outer;
 				}
 			}
 		}
 
-		if(stopped) {
-			monster.rotate();
-		} else {
+		if(!isThereAnyWallAround) {
+			monster.move(p.x + d.x, p.y + d.y);
+			return;
+		}
+
+
+		// if there are walls around, then stick to them
+
+		// [???]
+
+		// old logic
+		int targetX = p.x + d.x;
+		int targetY = p.y + d.y;
+
+		boolean free = map.free(targetX, targetY);
+		if(free) {
 			monster.move(targetX, targetY);
-		} // end if stopped
+		} else {
+			monster.rotate();
+		}
 	}
 
 }
