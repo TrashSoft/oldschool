@@ -128,7 +128,7 @@ public class GameEngine {
 		return this;
 	}
 
-	public GameEngine runStep(GameEngineStep step, Object object) {
+	public synchronized GameEngine runStep(GameEngineStep step, Object object) {
 		if(step == GameEngineStep.RENDER) {
 			graphics = (GameGraphics) object;
 		}
