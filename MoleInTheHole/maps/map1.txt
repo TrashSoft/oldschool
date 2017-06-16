@@ -1,0 +1,24 @@
+;;
+;; A map should be surrounded by walls, or the reader
+;; loads wrong data.
+;;
+;; Map definition:
+;;
+;; # = wall
+;; X = wall that turns into an exit
+;; . = dirt / sand
+;; P = player starting position
+;; O = stone
+;; * = diamond
+;; M = monster
+;; 
+
+###############
+#P........   M#
+#.. O........ #
+#...O........ #
+#...*........ #
+#............ #
+#............ X
+###############
+

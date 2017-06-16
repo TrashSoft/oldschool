@@ -3,10 +3,18 @@ package trash.oldschool.engine.g2d;
 import java.util.ArrayList;
 import java.util.List;
 
+import trash.oldschool.engine.GameEngineFacade;
+import trash.oldschool.engine.impl.GameEngine;
 import trash.oldschool.engine.intf.GameControl;
 import trash.oldschool.engine.intf.GameKeyListener;
 
 public class GameControlImpl implements GameControl {
+
+	private GameEngine engine;
+
+	public GameControlImpl(GameEngine engine) {
+		this.engine = engine;
+	}
 
 	@Override
 	public boolean isUpOn() {
@@ -77,8 +85,9 @@ public class GameControlImpl implements GameControl {
 	}
 
 	public void hit(char key) {
+		GameEngineFacade facade = engine.getFacade();
 		for(GameKeyListener listener : listeners) {
-			listener.hit(key);
+			listener.hit(facade, key);
 		}
 	}
 

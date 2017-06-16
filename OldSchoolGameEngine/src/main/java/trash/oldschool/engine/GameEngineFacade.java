@@ -17,6 +17,11 @@ public interface GameEngineFacade {
 	Object model();
 
 	/**
+	 * Asks for new re-run of the BUILD step.
+	 */
+	GameEngineFacade requestRebuild();
+
+	/**
 	 * @return Returns the input parameter.
 	 */
 	Object setModel(Object model);

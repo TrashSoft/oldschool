@@ -6,13 +6,13 @@ import trash.oldschool.mole.model.MoleModel;
 
 public class MoleBuildStep implements GameEngineCallback {
 
-	private static final String MAP_FILENAME = "maps/test.txt";
-
 	@Override
 	public Object call(GameEngineFacade facade) {
 		MoleModel model = (MoleModel) facade.model();
-		model.map.loadFrom(MAP_FILENAME);
-		facade.logger().info("Map loaded: " + MAP_FILENAME);
+		String mapFileName = model.getMapFileName();
+		model.map.loadFrom(mapFileName);
+		facade.logger().info("Map loaded: " + mapFileName);
+		model.clearOver();
 		return null;
 	}
 

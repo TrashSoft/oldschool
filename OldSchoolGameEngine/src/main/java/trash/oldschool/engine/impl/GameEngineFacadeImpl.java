@@ -28,6 +28,11 @@ public class GameEngineFacadeImpl implements GameEngineFacade {
 	}
 
 	@Override
+	public GameEngineFacade requestRebuild() {
+		return engine.requestRebuild();
+	}
+
+	@Override
 	public GameGraphics graphics() {
 		return engine.getGraphics();
 	}

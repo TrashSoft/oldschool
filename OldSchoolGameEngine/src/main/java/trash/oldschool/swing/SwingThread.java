@@ -5,6 +5,8 @@ import trash.oldschool.engine.intf.GameCanvas;
 import trash.oldschool.engine.intf.GameEngineStep;
 import trash.oldschool.engine.intf.GameThread;
 import trash.oldschool.engine.intf.GameTimer;
+import trash.oldschool.logging.Logger;
+import trash.oldschool.logging.LoggerFactory;
 
 public class SwingThread extends Thread implements GameThread, GameTimer {
 
@@ -25,7 +27,15 @@ public class SwingThread extends Thread implements GameThread, GameTimer {
 
 			while(true) {
 				nanoTimeNow = System.nanoTime();
-				engine.runStep(GameEngineStep.MODIFY, this);
+
+				if(engine.isRebuildRequested()) {
+					logger.info("Running build step.");
+					engine.runStep(GameEngineStep.BUILD, this);
+					nanoTimeNow = System.nanoTime();
+				} else {
+					engine.runStep(GameEngineStep.MODIFY, this);
+				}
+
 				nanoTimeOnLastCall = nanoTimeNow;
 				canvas.repaint();
 				Thread.sleep(10);
@@ -53,4 +63,5 @@ public class SwingThread extends Thread implements GameThread, GameTimer {
 		return elapsedTime;
 	}
 
+	private static final Logger logger = LoggerFactory.createLogger(SwingThread.class);
 }

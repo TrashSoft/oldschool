@@ -27,11 +27,12 @@ public class GameEngine {
 		GameEngine instance = new GameEngine();
 		instance.descriptor = descriptor;
 		instance.adapter = adapter;
-		instance.control = new GameControlImpl();
+		instance.control = new GameControlImpl(instance);
 		return instance;
 	}
 
 	private boolean initialized;
+	private boolean rebuildRequested;
 
 	private GameDescriptor descriptor;
 	private GameAdapter adapter;
@@ -60,6 +61,7 @@ public class GameEngine {
 		graphics = null;
 		spriteLibrary = new GameSpriteLibraryImpl();
 		initialized = false;
+		rebuildRequested = true;
 	}
 
 	public void startInNewWindow() {
@@ -72,9 +74,6 @@ public class GameEngine {
 		if(!initialized) {
 			logger.info("Running initialization.");
 			runStep(GameEngineStep.INIT, null);
-			logger.info("Running build step.");
-			runStep(GameEngineStep.BUILD, null);
-			logger.info("Engine initialized.");
 			initialized = true;
 		}
 
@@ -86,6 +85,15 @@ public class GameEngine {
 		window.add(canvas);
 		window.register(new DefaultGameWindowListener(this.thread, this));
 		window.showWindow();
+	}
+
+	public boolean isRebuildRequested() {
+		return rebuildRequested;
+	}
+
+	public GameEngineFacade requestRebuild() {
+		rebuildRequested = true;
+		return getFacade();
 	}
 
 	public GameDescriptor getDescriptor() {
@@ -140,6 +148,10 @@ public class GameEngine {
 		List<GameEngineCallback> list = callbacks.get(step);
 		for(GameEngineCallback callback : list) {
 			callback.call(facade);
+		}
+
+		if(step == GameEngineStep.BUILD) {
+			rebuildRequested = false;
 		}
 
 		graphics = null;

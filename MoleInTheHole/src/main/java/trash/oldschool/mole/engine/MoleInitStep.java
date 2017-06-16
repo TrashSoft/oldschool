@@ -26,6 +26,8 @@ public class MoleInitStep implements GameEngineCallback {
 		library.loadSprite("monster", "images/monster.jpg");
 		library.loadSprite("dead_monster", "images/dead_monster.jpg");
 
+		facade.control().registerKeyListener(new MoleSpecialKeys());
+
 		return null;
 	}
 

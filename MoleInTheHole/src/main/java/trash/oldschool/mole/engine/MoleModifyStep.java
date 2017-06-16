@@ -29,6 +29,15 @@ public class MoleModifyStep implements GameEngineCallback {
 			delta = 0.5;
 		}
 
+		boolean over = model.isOver();
+		if(over) {
+			model.reduceCountDown(delta);
+		}
+
+		if(model.readyToLeaveLevel()) {
+			facade.requestRebuild();
+		}
+
 		// first we summorize everything we have into a small
 		// map created specially for the monsters
 		MoleSummarizedMap summarizedMap = new MoleSummarizedMap(map);
@@ -56,6 +65,14 @@ public class MoleModifyStep implements GameEngineCallback {
 			}
 
 			if(player.isAllowedToMove()) {
+
+				if(over) {
+					continue;
+				}
+
+				if(map.isReadyToExit() && player.position.x == map.getExitPosition().x && player.position.y == map.getExitPosition().y) {
+					model.nextLevel();
+				}
 
 				GameControl control = facade.control();
 				if(control.isLeftOn() || control.isDownOn() || control.isRightOn() || control.isUpOn()) {
@@ -122,17 +139,29 @@ public class MoleModifyStep implements GameEngineCallback {
 			} // end is allowed to move
 		} // end for monster
 
-		// check if player is touching with any monsters
-		// if yes, player dies
-		for(MoleMonster monster : map.getMonsters()) {
-			for(MolePlayer player : map.getPlayers()) {
-				if(areTouching(monster, player)) {
-					player.alive = false;
+		// check if there is a player alive
+		if(!over) {
+
+			// check if player is touching with any monsters
+			// if yes, player dies
+			for(MoleMonster monster : map.getMonsters()) {
+				for(MolePlayer player : map.getPlayers()) {
+					if(areTouching(monster, player)) {
+						player.alive = false;
+					}
 				}
 			}
+			boolean isAnyPlayerAlive = false;
+			for(MolePlayer player: map.getPlayers()) {
+				if(player.alive) {
+					isAnyPlayerAlive = true;
+				}
+			}
+
+			if(!isAnyPlayerAlive) {
+				model.restartLevel();
+			}
 		}
-
-
 
 		return null;
 	}
