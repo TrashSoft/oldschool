@@ -23,9 +23,9 @@ public class PushTheBoxSummarizedMap {
 			}
 		}
 
-		for(PushTheBoxModelBox stone : initMap.getStones()) {
-			map[stone.position.x][stone.position.y] = false;
-			map[stone.target.x][stone.target.y] = false;
+		for(PushTheBoxModelBox boxModel : initMap.getBoxes()) {
+			map[boxModel.position.x][boxModel.position.y] = false;
+			map[boxModel.target.x][boxModel.target.y] = false;
 		}
 
 		for(PushTheBoxMonster monster : initMap.getMonsters()) {

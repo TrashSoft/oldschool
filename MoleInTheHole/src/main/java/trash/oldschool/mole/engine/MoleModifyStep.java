@@ -364,7 +364,6 @@ public class MoleModifyStep implements GameEngineCallback {
 			return;
 		}
 
-
 		// if there are walls around, then stick to them
 		d = monster.rotateLeft();
 		for(int i = 0; i < 4; i++) {

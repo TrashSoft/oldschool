@@ -1,8 +1,21 @@
+;;
+;; A map should be surrounded by walls, or the reader
+;; loads wrong data.
+;;
+;; Map definition:
+;;
+;; # = wall
+;; P = player starting position
+;; M = monster
+;; 1, 2, 3, 4, 5, 6 = boxes
+;; 
+
 ###############
-#P          #M#
-###  ####   # #
-###  ####  ## #
-#         1   #
-# #######  ## #
-#  2      12# #
+#M            #
+# ########### #
+# #         # #
+# # P  1    # #
+# #2 21 1   # #
+# ########### #
+#             #
 ###############

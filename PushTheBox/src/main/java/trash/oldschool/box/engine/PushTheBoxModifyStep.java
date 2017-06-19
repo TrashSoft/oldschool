@@ -1,6 +1,8 @@
 package trash.oldschool.box.engine;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
 import trash.oldschool.box.engine.helper.PushTheBoxSummarizedMap;
 import trash.oldschool.box.model.PushTheBoxMap;
@@ -41,21 +43,15 @@ public class PushTheBoxModifyStep implements GameEngineCallback {
 		// map created specially for the monsters
 		PushTheBoxSummarizedMap summarizedMap = new PushTheBoxSummarizedMap(map);
 
-		// move monsters
-		for(PushTheBoxMonster monster : map.getMonsters()) {
-			if(monster.isAllowedToMove()) {
-				moveMonster(summarizedMap, monster);
-			} else {
-				if(monster.alive) {
-					monster.reduceDelta(delta);
-				}
-			} // end is allowed to move
+		// move boxes
+		List<PushTheBoxModelBox> boxesToRemove = new ArrayList<>();
+		for(PushTheBoxModelBox box : map.getBoxes()) {
+			moveBox(delta, box, map, boxesToRemove);
 		} // end for monster
 
-		// move stones
-		for(PushTheBoxModelBox stone : map.getStones()) {
-			stone.reduceDelta(delta);
-		} // end for monster
+		if(!boxesToRemove.isEmpty()) {
+			map.removeBoxes(boxesToRemove);
+		}
 
 		// move players
 		for(PushTheBoxPlayer player : map.getPlayers()) {
@@ -103,20 +99,20 @@ public class PushTheBoxModifyStep implements GameEngineCallback {
 					}
 
 					if(!stopped) {
-						for(PushTheBoxModelBox stone : map.getStones()) {
-							if(stone.position.x == targetX && stone.position.y == targetY) {
-								if(stone.isAllowedToMove() && summarizedMap.free(stone.position, direction)) {
-									// pushing stone
-									stone.move(targetX + direction.x, targetY + direction.y);
+						for(PushTheBoxModelBox boxModel : map.getBoxes()) {
+							if(boxModel.position.x == targetX && boxModel.position.y == targetY) {
+								if(boxModel.isAllowedToMove() && summarizedMap.free(boxModel.position, direction)) {
+									// pushing box
+									boxModel.move(targetX + direction.x, targetY + direction.y);
 								} else {
 									stopped = true;
 								}
 								break;
-							} else if(stone.target.x == targetX && stone.target.y == targetY) {
+							} else if(boxModel.target.x == targetX && boxModel.target.y == targetY) {
 								// TODO I don't know.... if allowed to move, then position should be same as target
-								if(stone.isAllowedToMove() && summarizedMap.free(stone.position, direction)) {
-									// pushing stone
-									stone.move(targetX + direction.x, targetY + direction.y);
+								if(boxModel.isAllowedToMove() && summarizedMap.free(boxModel.position, direction)) {
+									// pushing box
+									boxModel.move(targetX + direction.x, targetY + direction.y);
 								} else {
 									stopped = true;
 								}
@@ -137,18 +133,29 @@ public class PushTheBoxModifyStep implements GameEngineCallback {
 			} // end is allowed to move
 		} // end for monster
 
-		// check if there is a player alive
-		if(!over) {
+		// check if player is touching with any monsters
+		// if yes, player dies
+		for(PushTheBoxMonster monster : map.getMonsters()) {
+			if(monster.isAllowedToMove()) {
+				moveMonster(summarizedMap, monster);
+			} else {
+				if(monster.alive) {
+					monster.reduceDelta(delta);
+				}
+			} // end is allowed to move
 
-			// check if player is touching with any monsters
-			// if yes, player dies
-			for(PushTheBoxMonster monster : map.getMonsters()) {
+			if(!over) {
 				for(PushTheBoxPlayer player : map.getPlayers()) {
 					if(areTouching(monster, player)) {
 						player.alive = false;
 					}
 				}
 			}
+		}
+
+		// check if there is a player alive
+		if(!over) {
+
 			boolean isAnyPlayerAlive = false;
 			for(PushTheBoxPlayer player: map.getPlayers()) {
 				if(player.alive) {
@@ -223,4 +230,48 @@ public class PushTheBoxModifyStep implements GameEngineCallback {
 		}
 	}
 
+	private void moveBox(double delta, PushTheBoxModelBox box, PushTheBoxMap map, List<PushTheBoxModelBox> boxesToRemove) {
+		if(!box.isAllowedToMove()) {
+			box.reduceDelta(delta);
+
+			if(box.isAllowedToMove() && box.merging) {
+				boxesToRemove.add(box);
+				return;
+			}
+
+			if(box.isAllowedToMove() && !box.merging) {
+				boolean merging = false;
+				for(PushTheBoxModelBox other: map.getBoxes()) {
+					if(box != other && box.type == other.type && nextToEachOther(box, other) && !other.merging) {
+						other.move(box.position.x, box.position.y);
+						other.merging = true;
+						merging = true;
+					}
+				}
+
+				if(merging) {
+					box.merging = true;
+					box.move(box.position.x, box.position.y);
+				}
+			}
+		}
+	}
+
+	private boolean nextToEachOther(PushTheBoxModelBox box1, PushTheBoxModelBox box2) {
+		if(box1.position.x == box2.position.x) {
+			int diff = box1.position.y - box2.position.y;
+			if(-1 <= diff && diff <= 1) {
+				return true;
+			}
+		}
+
+		if(box1.position.y == box2.position.y) {
+			int diff = box1.position.x - box2.position.x;
+			if(-1 <= diff && diff <= 1) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

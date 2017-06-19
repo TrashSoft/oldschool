@@ -98,8 +98,8 @@ public class PushTheBoxRenderStep implements GameEngineCallback {
 			g.drawSprite(monsterSprite, x, y);
 		}
 
-		// 4. Render stones
-		for(PushTheBoxModelBox boxModel : map.getStones()) {
+		// 4. Render boxes
+		for(PushTheBoxModelBox boxModel : map.getBoxes()) {
 			int x = (int)(boxModel.currentX() * TILE_WIDTH_AND_HEIGHT);
 			int y = (int)(boxModel.currentY() * TILE_WIDTH_AND_HEIGHT);
 

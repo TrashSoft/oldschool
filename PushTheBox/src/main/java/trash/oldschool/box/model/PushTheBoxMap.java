@@ -92,6 +92,14 @@ public class PushTheBoxMap {
 		readyToExit = false;
 	}
 
+	public void removeBoxes(List<PushTheBoxModelBox> boxesToRemove) {
+		boxes.removeAll(boxesToRemove);
+
+		if(boxes.isEmpty()) {
+			readyToExit = true;
+		}
+	}
+
 	public void clear() {
 		width = 0;
 		height = 0;
@@ -133,12 +141,12 @@ public class PushTheBoxMap {
 		this.monsters = monsters;
 	}
 
-	public List<PushTheBoxModelBox> getStones() {
+	public List<PushTheBoxModelBox> getBoxes() {
 		return boxes;
 	}
 
-	public void setStones(List<PushTheBoxModelBox> stones) {
-		this.boxes = stones;
+	public void setBoxes(List<PushTheBoxModelBox> boxes) {
+		this.boxes = boxes;
 	}
 
 	public List<PushTheBoxPlayer> getPlayers() {
