@@ -29,6 +29,8 @@ public class SwingFrame extends JFrame implements GameWindow, WindowListener, Ke
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addWindowListener(this);
 		addKeyListener(this);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		// setUndecorated(true);
 	}
 
 	@Override
