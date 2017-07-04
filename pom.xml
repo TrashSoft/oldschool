@@ -45,5 +45,6 @@
 		<module>OldSchoolGameEngine</module>
 		<module>MoleInTheHole</module>
 		<module>PushTheBox</module>
+		<module>CutthroathSpecie</module>
 	</modules>
 </project>
