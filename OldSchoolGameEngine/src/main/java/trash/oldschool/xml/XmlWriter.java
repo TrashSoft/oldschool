@@ -39,8 +39,9 @@ public class XmlWriter implements Closeable {
 	public void write(Object obj) throws IOException, XmlReflectionException {
 		reference_list.add(obj);
 		index = 0;
-		while(index < reference_list.size())
-		{
+
+		while(index < reference_list.size()) {
+
 			Object tmp = reference_list.get(index);
 			Class<?> tmpClass = tmp.getClass();
 
@@ -277,7 +278,7 @@ public class XmlWriter implements Closeable {
 		writer.close();
 	}
 
-	public static final String ROOT_TAG = "Superstition.Model";
+	public static final String ROOT_TAG = "data";
 	public static final String ROOT_VERSION = "01.00.0000";
 	private static final String SPACES = "                                        ";
 	private static final int SPACES_LENGTH = SPACES.length();
