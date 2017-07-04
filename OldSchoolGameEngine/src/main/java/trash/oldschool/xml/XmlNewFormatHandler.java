@@ -1,4 +1,4 @@
-package hu.csega.superstition.xml;
+package trash.oldschool.xml;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
@@ -8,34 +8,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
-import org.joml.Vector2f;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
-
-/**
- * The new way of parsing the data files.
- * It is a hybrid solution of the handers of the legacy format with some new aspects.
- * <br/><br/>
- * <ul>
- * <li>IDs and reference attributes are now named as `__id` and `__ref` to better avoid collisions.</li>
- * <li>References are created now on the fly, and trying to be completed on their turn in the object stream
- * (this was reversed in the earlier version). If not all references are available, it will be proxied
- * like earlier.</li>
- * <li>While writing, if an object doesn't have any references to other objects
- * (has only primitives, vectors and matrices),
- * may be written out in the subtree, not as a referenced object
- * (current writer is not capable of that).</li>
- * <li>Vectors and matrices are written with "Matrix." prefix.</li>
- * <li>List elements of one property will be collected in a child node.</li>
- * <li>Arrays are supported.</li>
- * <li>There can be a list of kind-of-primitives with the prefix of "Lang.".</li>
- * </ul>
- */
 class XmlNewFormatHandler implements XmlHandler {
 
 	@Override
@@ -51,12 +25,9 @@ class XmlNewFormatHandler implements XmlHandler {
 		}
 
 		Object kindOfPrimitive = resolveKindOfPrimitives(node.content, node.tag);
-		if(kindOfPrimitive != null)
+		if(kindOfPrimitive != null) {
 			return kindOfPrimitive;
-
-		Object vectorOrMatrix = resolveVectorsAndMatrices(node);
-		if(vectorOrMatrix != null)
-			return vectorOrMatrix;
+		}
 
 		if(node.tag.startsWith("Superstition.") || // knows the legacy objects as well, but uses only in tests
 				node.tag.startsWith("T3DCreator.") || node.tag.startsWith("Legacy.")) {
@@ -79,155 +50,42 @@ class XmlNewFormatHandler implements XmlHandler {
 		return node;
 	}
 
-	private Object matrix4Of(XmlNode node) {
-		Matrix4f m = new Matrix4f();
-
-		for(Entry<String, String> e : node.attributes.entrySet()) {
-			String name = e.getKey();
-			String n = e.getValue();
-
-			switch(name) {
-			case "M11": f16[0] = floatOf(n); break;
-			case "M12": f16[1] = floatOf(n); break;
-			case "M13": f16[2] = floatOf(n); break;
-			case "M14": f16[3] = floatOf(n); break;
-			case "M21": f16[4] = floatOf(n); break;
-			case "M22": f16[5] = floatOf(n); break;
-			case "M23": f16[6] = floatOf(n); break;
-			case "M24": f16[7] = floatOf(n); break;
-			case "M31": f16[8] = floatOf(n); break;
-			case "M32": f16[9] = floatOf(n); break;
-			case "M33": f16[10] = floatOf(n); break;
-			case "M34": f16[11] = floatOf(n); break;
-			case "M41": f16[12] = floatOf(n); break;
-			case "M42": f16[13] = floatOf(n); break;
-			case "M43": f16[14] = floatOf(n); break;
-			case "M44": f16[15] = floatOf(n); break;
-			default:
-				break;
-			} // end switch
-
-		} // end for c - children
-
-		m.set(f16);
-		return m;
-	}
-
-	private Object matrix3Of(XmlNode node) {
-		Matrix3f m = new Matrix3f();
-
-		for(Entry<String, String> e : node.attributes.entrySet()) {
-			String name = e.getKey();
-			String n = e.getValue();
-
-			switch(name) {
-			case "M11": f9[0] = floatOf(n); break;
-			case "M12": f9[1] = floatOf(n); break;
-			case "M13": f9[2] = floatOf(n); break;
-			case "M21": f9[3] = floatOf(n); break;
-			case "M22": f9[4] = floatOf(n); break;
-			case "M23": f9[5] = floatOf(n); break;
-			case "M31": f9[6] = floatOf(n); break;
-			case "M32": f9[7] = floatOf(n); break;
-			case "M33": f9[8] = floatOf(n); break;
-			default:
-				break;
-			} // end switch
-
-		} // end for c - children
-
-		m.set(f9);
-		return m;
-	}
-
-	private Object vector4Of(XmlNode node) {
-		Vector4f v = new Vector4f();
-
-		for(Entry<String, String> e : node.attributes.entrySet()) {
-			String name = e.getKey();
-			String n = e.getValue();
-
-			switch(name) {
-			case "X": f4[0] = floatOf(n); break;
-			case "Y": f4[1] = floatOf(n); break;
-			case "Z": f4[2] = floatOf(n); break;
-			case "W": f4[3] = floatOf(n); break;
-			default:
-				break;
-			} // end switch
-		} // end for c - children
-
-		v.set(f4[0], f4[1], f4[2], f4[3]);
-		return v;
-	}
-
-	private Object vector3Of(XmlNode node) {
-		Vector3f v = new Vector3f();
-
-		for(Entry<String, String> e : node.attributes.entrySet()) {
-			String name = e.getKey();
-			String n = e.getValue();
-
-			switch(name) {
-			case "X": f3[0] = floatOf(n); break;
-			case "Y": f3[1] = floatOf(n); break;
-			case "Z": f3[2] = floatOf(n); break;
-			default:
-				break;
-			} // end switch
-		} // end for c - children
-
-		v.set(f3[0], f3[1], f3[2]);
-		return v;
-	}
-
-	private Object vector2Of(XmlNode node) {
-		Vector2f v = new Vector2f();
-
-		for(Entry<String, String> e : node.attributes.entrySet()) {
-			String name = e.getKey();
-			String n = e.getValue();
-
-			switch(name) {
-			case "X": f2[0] = floatOf(n); break;
-			case "Y": f2[1] = floatOf(n); break;
-			default:
-				break;
-			} // end switch
-
-		} // end for c - children
-
-		v.set(f2[0], f2[1]);
-		return v;
-	}
-
 	private Object parse(String s, Class<?> class1) throws XmlException {
-		if(s == null || class1 == String.class)
+		if(s == null || class1 == String.class) {
 			return s;
+		}
 
-		if(class1 == int.class || class1 == Integer.class)
+		if(class1 == int.class || class1 == Integer.class) {
 			return Integer.parseInt(s);
+		}
 
-		if(class1 == byte.class || class1 == Byte.class)
+		if(class1 == byte.class || class1 == Byte.class) {
 			return Byte.parseByte(s);
+		}
 
-		if(class1 == boolean.class || class1 == Boolean.class)
+		if(class1 == boolean.class || class1 == Boolean.class) {
 			return Boolean.parseBoolean(s);
+		}
 
-		if(class1 == long.class || class1 == Long.class)
+		if(class1 == long.class || class1 == Long.class) {
 			return Long.parseLong(s);
+		}
 
-		if(class1 == short.class || class1 == Short.class)
+		if(class1 == short.class || class1 == Short.class) {
 			return Short.parseShort(s);
+		}
 
-		if(class1 == char.class || class1 == Character.class)
+		if(class1 == char.class || class1 == Character.class) {
 			return s.charAt(0);
+		}
 
-		if(class1 == float.class || class1 == Float.class)
+		if(class1 == float.class || class1 == Float.class) {
 			return Float.parseFloat(s);
+		}
 
-		if(class1 == double.class || class1 == Double.class)
+		if(class1 == double.class || class1 == Double.class) {
 			return Double.parseDouble(s);
+		}
 
 		throw new XmlException("Couldn't identify setter parameter: " + class1.getName());
 	}
@@ -240,11 +98,13 @@ class XmlNewFormatHandler implements XmlHandler {
 		String s = b.toString();
 
 		String type = tag.substring("Lang.".length());
-		if("String".equals(tag))
+		if("String".equals(tag)) {
 			return s;
+		}
 
-		if(s.length() == 0)
+		if(s.length() == 0) {
 			return null;
+		}
 
 		switch(type) {
 		case "Integer":
@@ -268,38 +128,6 @@ class XmlNewFormatHandler implements XmlHandler {
 		}
 	}
 
-	private float floatOf(String n) {
-		if(n == null || n.length() == 0)
-			return 0f;
-
-		return Float.parseFloat(n);
-	}
-
-	public Object resolveVectorsAndMatrices(XmlNode node) {
-		if("Math.Matrix4".equals(node.tag)) {
-			return matrix4Of(node);
-		}
-
-		if("Math.Matrix3".equals(node.tag)) {
-			return matrix3Of(node);
-		}
-
-		if("Math.Vector4".equals(node.tag)) {
-			return vector4Of(node);
-		}
-
-		if("Math.Vector3".equals(node.tag)) {
-			return vector3Of(node);
-		}
-
-		if("Math.Vector2".equals(node.tag)) {
-			return vector2Of(node);
-		}
-
-		// unknown type
-		return null;
-	}
-
 	@Override
 	public void complete(XmlObjectProxy xmlObjectProxy) throws XmlException {
 		// FIXME object proxies in interfaces should be re-considered
@@ -316,8 +144,9 @@ class XmlNewFormatHandler implements XmlHandler {
 				String name = e.getKey();
 				if(!"__id".equals(name) && !"__ref".equals(name)) {
 					XmlFieldBinding binding = fields.get(name);
-					if(binding == null)
+					if(binding == null) {
 						throw new XmlException("Can't find field: " + tagClass.getName() + '.' + name);
+					}
 
 					Class<?> valueClass = binding.setter.getParameterTypes()[0];
 					Object param = parse(e.getValue(), valueClass);
@@ -334,8 +163,9 @@ class XmlNewFormatHandler implements XmlHandler {
 			for(Object c : node.children) {
 				XmlNode parameterNode = (XmlNode)c;
 				XmlFieldBinding binding = fields.get(parameterNode.tag);
-				if(binding == null)
+				if(binding == null) {
 					throw new XmlException("Can't find field: " + tagClass.getName() + '.' + parameterNode.tag);
+				}
 
 				Class<?> valueClass = binding.setter.getParameterTypes()[0];
 				if(Collection.class.isAssignableFrom(valueClass)) {
@@ -364,8 +194,9 @@ class XmlNewFormatHandler implements XmlHandler {
 					Object array = Array.newInstance(componentType, size);
 
 					if(size > 0) {
-						for(int i = 0; i < size; i++)
+						for(int i = 0; i < size; i++) {
 							Array.set(array, i, parameterNode.children.get(i));
+						}
 					}
 
 					try {
@@ -407,8 +238,9 @@ class XmlNewFormatHandler implements XmlHandler {
 
 	private Object reachForObject(String id, String tag) throws XmlException {
 		Object _value = objects.get(id);
-		if(_value != null)
+		if(_value != null) {
 			return _value;
+		}
 
 		_value = createEmptyObject(id, tag);
 		objects.put(id, _value);
@@ -417,8 +249,9 @@ class XmlNewFormatHandler implements XmlHandler {
 
 	private Object createEmptyObject(String id, String tag) throws XmlException {
 		Class<?> valueClass = XmlBinding.classOf(tag);
-		if(valueClass == null)
+		if(valueClass == null) {
 			throw new XmlException("Missing class for " + tag);
+		}
 
 		Object _value;
 		try {

@@ -1,4 +1,4 @@
-package hu.csega.superstition.xml;
+package trash.oldschool.xml;
 
 public class XmlException extends Exception {
 

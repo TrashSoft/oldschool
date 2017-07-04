@@ -1,9 +1,11 @@
-package hu.csega.superstition.xml;
+package trash.oldschool.xml;
 
-import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import trash.oldschool.logging.Logger;
+import trash.oldschool.logging.LoggerFactory;
 
 class XmlRootHandler extends DefaultHandler implements XmlHandler {
 
@@ -18,13 +20,7 @@ class XmlRootHandler extends DefaultHandler implements XmlHandler {
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		if (subHandler == null) {
-			if ("meta".equals(qName)) {
-				logger.info("Using legacy animation handler.");
-				subHandler = new XmlLegacyAnimationHandler();
-			} else if ("DATAFILE".equals(qName)) {
-				logger.info("Using legacy T3DCreator handler.");
-				subHandler = new XmlLegacyT3DCreatorHandler();
-			} else if (XmlWriter.ROOT_TAG.equals(qName)) {
+			if (XmlWriter.ROOT_TAG.equals(qName)) {
 
 				String version = attributes.getValue("version");
 				logger.info("Format identified, version: " + version);
@@ -46,8 +42,9 @@ class XmlRootHandler extends DefaultHandler implements XmlHandler {
 		node.tag = qName;
 
 		int al = attributes.getLength();
-		for (int i = 0; i < al; i++)
+		for (int i = 0; i < al; i++) {
 			node.attributes.put(attributes.getQName(i), attributes.getValue(i));
+		}
 
 		stack.push(node);
 	}
@@ -63,10 +60,11 @@ class XmlRootHandler extends DefaultHandler implements XmlHandler {
 			if(convertedTo != null) {
 
 				XmlNode top = stack.top();
-				if (top != null)
+				if (top != null) {
 					top.children.add(convertedTo);
-				else
+				} else {
 					root = convertedTo;
+				}
 
 			}
 
@@ -78,8 +76,9 @@ class XmlRootHandler extends DefaultHandler implements XmlHandler {
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
 		XmlNode top = stack.top();
-		if (top != null)
+		if (top != null) {
 			top.content.append(ch, start, length);
+		}
 	}
 
 	@Override
@@ -92,5 +91,5 @@ class XmlRootHandler extends DefaultHandler implements XmlHandler {
 		throw new UnsupportedOperationException("complete");
 	}
 
-	private static final Logger logger = Logger.getLogger(XmlHandler.class);
+	private static final Logger logger = LoggerFactory.createLogger(XmlHandler.class);
 }

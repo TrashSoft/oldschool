@@ -1,4 +1,4 @@
-package hu.csega.superstition.xml;
+package trash.oldschool.xml;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -8,29 +8,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
-import hu.csega.superstition.gamelib.legacy.animationdata.CConnection;
-import hu.csega.superstition.gamelib.legacy.animationdata.CModelData;
-import hu.csega.superstition.gamelib.legacy.animationdata.CPartData;
-import hu.csega.superstition.gamelib.legacy.modeldata.CEdge;
-import hu.csega.superstition.gamelib.legacy.modeldata.CFigure;
-import hu.csega.superstition.gamelib.legacy.modeldata.CModel;
-import hu.csega.superstition.gamelib.legacy.modeldata.CTexID;
-import hu.csega.superstition.gamelib.legacy.modeldata.CTriangle;
-import hu.csega.superstition.gamelib.legacy.modeldata.CVertex;
-import hu.csega.superstition.gamelib.model.SAnimationRef;
-import hu.csega.superstition.gamelib.model.SMeshRef;
-import hu.csega.superstition.gamelib.model.STextureRef;
-import hu.csega.superstition.gamelib.model.animation.SAnimation;
-import hu.csega.superstition.gamelib.model.animation.SBodyPart;
-import hu.csega.superstition.gamelib.model.animation.SConnection;
-import hu.csega.superstition.gamelib.model.mesh.SEdge;
-import hu.csega.superstition.gamelib.model.mesh.SMesh;
-import hu.csega.superstition.gamelib.model.mesh.SShape;
-import hu.csega.superstition.gamelib.model.mesh.STriangle;
-import hu.csega.superstition.gamelib.model.mesh.SVertex;
-import hu.csega.superstition.gamelib.model.story.SMap;
-import hu.csega.superstition.gamelib.model.story.SRoom;
 
 public class XmlBinding {
 
@@ -59,18 +36,21 @@ public class XmlBinding {
 
 	private static final Set<Class<?>> ATTRIBUTES = new HashSet<>();
 
-	private static void registerClass(Class<?> classToRegister) {
+	public  static void registerClass(Class<?> classToRegister) {
 		XmlClass xmlClass = classToRegister.getAnnotation(XmlClass.class);
-		if(xmlClass == null)
+		if(xmlClass == null) {
 			throw new RuntimeException("XmlCass annotation is missing!");
+		}
 
 		String typeName = xmlClass.value();
-		if(typeName == null || typeName.length() == 0)
+		if(typeName == null || typeName.length() == 0) {
 			throw new RuntimeException("No type name specified for class: " + classToRegister.getName());
+		}
 
-		if(nameToClass.containsKey(typeName))
+		if(nameToClass.containsKey(typeName)) {
 			throw new RuntimeException("At least two classes claim the same xml type name of " + typeName
 					+ ": " + nameToClass.get(typeName).getName() + " and " + classToRegister.getName());
+		}
 
 		nameToClass.put(typeName, classToRegister);
 		XmlBinding binding = new XmlBinding();
@@ -85,14 +65,16 @@ public class XmlBinding {
 
 		for(Method m : methods) {
 			XmlField annotation = m.getAnnotation(XmlField.class);
-			if(annotation == null)
+			if(annotation == null) {
 				continue;
+			}
 
 			String methodName = m.getName();
 			String field = annotation.value();
-			if(field == null || field.length() == 0)
+			if(field == null || field.length() == 0) {
 				throw new RuntimeException("Field name is missing for method: "
 						 + classToRegister.getName() + '.' + methodName);
+			}
 
 			XmlFieldBinding fb = fieldBindings.get(field);
 			if(fb == null) {
@@ -171,40 +153,6 @@ public class XmlBinding {
 		ATTRIBUTES.add(Float.class);
 		ATTRIBUTES.add(double.class);
 		ATTRIBUTES.add(Double.class);
-
-		/* Insert bound java classes here! */
-
-		// Legacy animation objects
-		registerClass(CModelData.class);
-		registerClass(CConnection.class);
-		registerClass(CPartData.class);
-
-		// Legacy T3DCreator model objects
-		registerClass(CModel.class);
-		registerClass(CFigure.class);
-		registerClass(CTriangle.class);
-		registerClass(CEdge.class);
-		registerClass(CVertex.class);
-		registerClass(CTexID.class);
-
-		// New model in game
-		registerClass(SAnimationRef.class);
-		registerClass(SMeshRef.class);
-		registerClass(STextureRef.class);
-
-		registerClass(SAnimation.class);
-		registerClass(SBodyPart.class);
-		registerClass(SConnection.class);
-
-		registerClass(SMesh.class);
-		registerClass(STriangle.class);
-		registerClass(SVertex.class);
-		registerClass(SEdge.class);
-		registerClass(SShape.class);
-
-		registerClass(SMap.class);
-		registerClass(SRoom.class);
-
 	}
 
 }

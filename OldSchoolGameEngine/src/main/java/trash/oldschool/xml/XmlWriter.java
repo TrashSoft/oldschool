@@ -1,4 +1,4 @@
-package hu.csega.superstition.xml;
+package trash.oldschool.xml;
 
 import java.io.Closeable;
 import java.io.FileOutputStream;
@@ -11,13 +11,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
-import org.joml.Vector2f;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
 
-import hu.csega.superstition.util.FileUtil;
+import trash.oldschool.util.FileUtil;
 
 public class XmlWriter implements Closeable {
 
@@ -105,8 +100,9 @@ public class XmlWriter implements Closeable {
 			throw new XmlReflectionException(fb.field, ex);
 		}
 
-		if(value == null)
+		if(value == null) {
 			return;
+		}
 
 		printAttribute(fb.field, value.toString());
 
@@ -122,8 +118,9 @@ public class XmlWriter implements Closeable {
 			throw new XmlReflectionException(fb.field, ex);
 		}
 
-		if(value == null)
+		if(value == null) {
 			return;
+		}
 
 		openNode(fb.field);
 
@@ -151,98 +148,14 @@ public class XmlWriter implements Closeable {
 		closeNode(fb.field);
 	} // End of function
 
-	private void printMatrix4(XmlFieldBinding fb, Object value) throws IOException {
-		Matrix4f m = (Matrix4f) value;
-		startOpeningNode("Math.Matrix4");
-		printAttribute("M00", String.valueOf(m.m00()));
-		printAttribute("M01", String.valueOf(m.m01()));
-		printAttribute("M02", String.valueOf(m.m02()));
-		printAttribute("M03", String.valueOf(m.m03()));
-		printAttribute("M10", String.valueOf(m.m10()));
-		printAttribute("M11", String.valueOf(m.m11()));
-		printAttribute("M12", String.valueOf(m.m12()));
-		printAttribute("M13", String.valueOf(m.m13()));
-		printAttribute("M20", String.valueOf(m.m20()));
-		printAttribute("M21", String.valueOf(m.m21()));
-		printAttribute("M22", String.valueOf(m.m22()));
-		printAttribute("M23", String.valueOf(m.m23()));
-		printAttribute("M30", String.valueOf(m.m30()));
-		printAttribute("M31", String.valueOf(m.m31()));
-		printAttribute("M32", String.valueOf(m.m32()));
-		printAttribute("M33", String.valueOf(m.m33()));
-		finishOpeningNodeWithSelfClosure();
-	}
-
-	private void printMatrix3(XmlFieldBinding fb, Object value) throws IOException {
-		Matrix3f m = (Matrix3f) value;
-		startOpeningNode("Math.Matrix3");
-		printAttribute("M00", String.valueOf(m.m00));
-		printAttribute("M01", String.valueOf(m.m01));
-		printAttribute("M02", String.valueOf(m.m02));
-		printAttribute("M10", String.valueOf(m.m10));
-		printAttribute("M11", String.valueOf(m.m11));
-		printAttribute("M12", String.valueOf(m.m12));
-		printAttribute("M20", String.valueOf(m.m20));
-		printAttribute("M21", String.valueOf(m.m21));
-		printAttribute("M22", String.valueOf(m.m22));
-		finishOpeningNodeWithSelfClosure();
-	}
-
-	private void printVector4(XmlFieldBinding fb, Object value) throws IOException {
-		Vector4f v = (Vector4f) value;
-		startOpeningNode("Math.Vector4");
-		printAttribute("X", String.valueOf(v.x));
-		printAttribute("Y", String.valueOf(v.y));
-		printAttribute("Z", String.valueOf(v.y));
-		printAttribute("W", String.valueOf(v.w));
-		finishOpeningNodeWithSelfClosure();
-	}
-
-	private void printVector3f(XmlFieldBinding fb, Object value) throws IOException {
-		Vector3f v = (Vector3f) value;
-		startOpeningNode("Math.Vector3");
-		printAttribute("X", String.valueOf(v.x));
-		printAttribute("Y", String.valueOf(v.y));
-		printAttribute("Z", String.valueOf(v.y));
-		finishOpeningNodeWithSelfClosure();
-	}
-
-	private void printVector2(XmlFieldBinding fb, Object value) throws IOException {
-		Vector2f v = (Vector2f) value;
-		startOpeningNode("Math.Vector2");
-		printAttribute("X", String.valueOf(v.x));
-		printAttribute("Y", String.valueOf(v.y));
-		finishOpeningNodeWithSelfClosure();
-	}
-
 	private void writeItem(XmlFieldBinding fb, Object value) throws IOException, XmlReflectionException {
-		if(value == null)
+		if(value == null) {
 			return;
+		}
 
 		Class<?> c = value.getClass();
 		if(XmlBinding.isKindOfPrimitive(c)) {
 			printKindOfPrimitive(value.toString(), c);
-			return;
-
-		} else if(value instanceof Vector2f) {
-			printVector2(fb, value);
-			return;
-
-		} else if (value instanceof Vector3f) {
-			printVector3f(fb, value);
-			return;
-
-		} else if (value instanceof Vector4f) {
-			printVector4(fb, value);
-			return;
-
-
-		} else if (value instanceof Matrix3f) {
-			printMatrix3(fb, value);
-			return;
-
-		} else if (value instanceof Matrix4f) {
-			printMatrix4(fb, value);
 			return;
 		}
 
@@ -300,32 +213,41 @@ public class XmlWriter implements Closeable {
 	}
 
 	private String tagForClass(Class<?> class1) throws XmlReflectionException {
-		if(class1 == String.class)
+		if(class1 == String.class) {
 			return "Lang.String";
+		}
 
-		if(class1 == int.class || class1 == Integer.class)
+		if(class1 == int.class || class1 == Integer.class) {
 			return "Lang.Integer";
+		}
 
-		if(class1 == byte.class || class1 == Byte.class)
+		if(class1 == byte.class || class1 == Byte.class) {
 			return "Lang.Byte";
+		}
 
-		if(class1 == boolean.class || class1 == Boolean.class)
+		if(class1 == boolean.class || class1 == Boolean.class) {
 			return "Lang.Boolean";
+		}
 
-		if(class1 == long.class || class1 == Long.class)
+		if(class1 == long.class || class1 == Long.class) {
 			return "Lang.Long";
+		}
 
-		if(class1 == short.class || class1 == Short.class)
+		if(class1 == short.class || class1 == Short.class) {
 			return "Lang.Short";
+		}
 
-		if(class1 == char.class || class1 == Character.class)
+		if(class1 == char.class || class1 == Character.class) {
 			return "Lang.Character";
+		}
 
-		if(class1 == float.class || class1 == Float.class)
+		if(class1 == float.class || class1 == Float.class) {
 			return "Lang.Float";
+		}
 
-		if(class1 == double.class || class1 == Double.class)
+		if(class1 == double.class || class1 == Double.class) {
 			return "Lang.Double";
+		}
 
 		throw new XmlReflectionException("Couldn't identify parameter type: " + class1.getName());
 	}
