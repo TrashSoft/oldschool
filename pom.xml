@@ -46,5 +46,6 @@
 		<module>MoleInTheHole</module>
 		<module>PushTheBox</module>
 		<module>CutthroathSpecie</module>
+		<module>WebPet</module>
 	</modules>
 </project>
