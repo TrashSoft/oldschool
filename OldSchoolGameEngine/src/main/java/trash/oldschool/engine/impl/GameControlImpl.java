@@ -1,14 +1,23 @@
-package trash.oldschool.engine.g2d;
+package trash.oldschool.engine.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import trash.oldschool.engine.GameEngineFacade;
-import trash.oldschool.engine.impl.GameEngine;
 import trash.oldschool.engine.intf.GameControl;
 import trash.oldschool.engine.intf.GameKeyListener;
 
 public class GameControlImpl implements GameControl {
+
+	boolean upIsOn = false;
+	boolean downIsOn = false;
+	boolean leftIsOn = false;
+	boolean rightIsOn = false;
+	boolean controlIsOn = false;
+	boolean altIsOn = false;
+	boolean shiftIsOn = false;
+
+	private List<GameKeyListener> listeners = new ArrayList<>();
 
 	private GameEngine engine;
 
@@ -90,15 +99,5 @@ public class GameControlImpl implements GameControl {
 			listener.hit(facade, key);
 		}
 	}
-
-	boolean upIsOn = false;
-	boolean downIsOn = false;
-	boolean leftIsOn = false;
-	boolean rightIsOn = false;
-	boolean controlIsOn = false;
-	boolean altIsOn = false;
-	boolean shiftIsOn = false;
-
-	private List<GameKeyListener> listeners = new ArrayList<>();
 
 }

@@ -7,7 +7,6 @@ import java.util.Map;
 
 import trash.oldschool.engine.GameEngineCallback;
 import trash.oldschool.engine.GameEngineFacade;
-import trash.oldschool.engine.g2d.GameControlImpl;
 import trash.oldschool.engine.intf.GameAdapter;
 import trash.oldschool.engine.intf.GameCanvas;
 import trash.oldschool.engine.intf.GameControl;

@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import trash.oldschool.engine.g2d.GameControlImpl;
+import trash.oldschool.engine.impl.GameControlImpl;
 import trash.oldschool.engine.impl.GameEngine;
 import trash.oldschool.engine.intf.GameCanvas;
 import trash.oldschool.engine.intf.GameWindow;
