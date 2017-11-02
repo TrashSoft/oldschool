@@ -9,7 +9,6 @@ public class SciFiNovelDisposeStep implements GameEngineCallback {
 	@Override
 	public Object call(GameEngineFacade facade) {
 		SciFiNovelModel model = (SciFiNovelModel) facade.model();
-		model.map.clear();
 		return null;
 	}
 

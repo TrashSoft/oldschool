@@ -10,15 +10,15 @@ public class SciFiNovelSpecialKeys implements GameKeyListener {
 	public void hit(GameEngineFacade facade, char key) {
 		SciFiNovelModel model = (SciFiNovelModel) facade.model();
 
-		if (27 == key) {
+		if (27 == key) { // ESC
 			if (model != null) {
-				model.restartLevel();
+				// model.restartLevel();
 			}
 		}
 
 		if ('n' == key || 'N' == key) {
 			if (model != null) {
-				model.nextLevel();
+				// model.nextLevel();
 			}
 		}
 	}

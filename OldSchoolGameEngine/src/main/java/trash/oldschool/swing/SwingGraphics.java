@@ -2,6 +2,7 @@ package trash.oldschool.swing;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import trash.oldschool.engine.g2d.GameColor;
@@ -23,6 +24,8 @@ public class SwingGraphics implements GameGraphics {
 	private int width;
 	private int height;
 
+	private AffineTransform originalTransformation;
+
 	public SwingGraphics(GameEngine engine, Graphics2D g2d, int width, int height) {
 		this.engine = engine;
 		this.g = g2d;
@@ -42,12 +45,29 @@ public class SwingGraphics implements GameGraphics {
 
 	@Override
 	public void rotate(double angle) {
+		if(originalTransformation == null)
+			originalTransformation = g.getTransform();
 		g.rotate(angle);
 	}
 
 	@Override
 	public void translate(double tx, double ty) {
+		if(originalTransformation == null)
+			originalTransformation = g.getTransform();
 		g.translate(tx, ty);
+	}
+
+	@Override
+	public void scale(double scaling) {
+		if(originalTransformation == null)
+			originalTransformation = g.getTransform();
+		g.scale(scaling, scaling);
+	}
+
+	@Override
+	public void resetTransformations() {
+		g.setTransform(originalTransformation);
+		originalTransformation = null;
 	}
 
 	@Override
@@ -96,6 +116,24 @@ public class SwingGraphics implements GameGraphics {
 			g.fillPolygon(xPoints, yPoints, 3);
 		} // end while
 
+	}
+
+	@Override
+	public void drawLine(double x1, double y1, double x2, double y2, GameColor color) {
+		g.setColor(toSwingColor(color));
+		g.drawLine((int)x1, (int)y1, (int)x2, (int)y2);
+	}
+
+	@Override
+	public void drawOval(double x, double y, double horizontalRadius, double verticalRadius, GameColor color) {
+		g.setColor(toSwingColor(color));
+		g.drawOval((int)(x-horizontalRadius), (int)(y-verticalRadius), (int)(horizontalRadius*2), (int)(verticalRadius*2));
+	}
+
+	@Override
+	public void fillOval(double x, double y, double horizontalRadius, double verticalRadius, GameColor color) {
+		g.setColor(toSwingColor(color));
+		g.fillOval((int)(x-horizontalRadius), (int)(y-verticalRadius), (int)(horizontalRadius*2), (int)(verticalRadius*2));
 	}
 
 	@Override

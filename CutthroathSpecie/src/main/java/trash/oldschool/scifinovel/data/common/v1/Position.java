@@ -9,44 +9,44 @@ public class Position {
 	public Position() {
 	}
 
-	public Position(int x, int y, int z) {
+	public Position(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
 
 	@XmlField("x")
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 
 	@XmlField("x")
-	public void setX(int x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
 	@XmlField("y")
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 
 	@XmlField("y")
-	public void setY(int y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 
 	@XmlField("z")
-	public int getZ() {
+	public double getZ() {
 		return z;
 	}
 
 	@XmlField("z")
-	public void setZ(int z) {
+	public void setZ(double z) {
 		this.z = z;
 	}
 
-	private int x;
-	private int y;
-	private int z;
+	private double x;
+	private double y;
+	private double z;
 
 }

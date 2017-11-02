@@ -17,6 +17,8 @@ public interface GameGraphics {
 
 	void rotate(double angle);
 	void translate(double tx, double ty);
+	void scale(double scaling);
+	void resetTransformations();
 
 	void crossHair(double x, double y);
 	void drawTriangleStrip(GameColor color, GamePoint... gamePoints);
@@ -28,4 +30,7 @@ public interface GameGraphics {
 
 	void drawHitShape(GameHitShape hitShape, double x, double y, GameColor color);
 
+	void drawLine(double x1, double y1, double x2, double y2, GameColor color);
+	void drawOval(double x, double y, double horizontalRadius, double verticalRadius, GameColor color);
+	void fillOval(double x, double y, double horizontalRadius, double verticalRadius, GameColor color);
 }
