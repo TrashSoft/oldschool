@@ -336,13 +336,13 @@ public class MoleModifyStep implements GameEngineCallback {
 
 		boolean touching = false;
 
-		double boxLeft = m1x - 0.4;
-		double boxTop = m1y - 0.4;
-		double boxRight = m1x + 1.4;
-		double boxBottom = m1y + 1.4;
+		double boxLeft = m1x - 0.5;
+		double boxTop = m1y - 0.5;
+		double boxRight = m1x + 1.5;
+		double boxBottom = m1y + 1.5;
 
-		double px = m2x + 0.4;
-		double py = m2y + 0.4;
+		double px = m2x + 0.5;
+		double py = m2y + 0.5;
 
 		if(px >= boxLeft && px <= boxRight && py >= boxTop && py <= boxBottom) {
 			touching = true;
